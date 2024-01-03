@@ -1,0 +1,80 @@
+.dash-cont{
+    height: 500px;
+}
+
+.inp{
+    outline: none;
+    height: 30px;
+    font-size: 14px;
+    padding: 0 4px;
+}
+
+.pass{
+    display: flex;
+    margin-top: 0px !important;
+}
+.fd-row{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+.form-body{
+        width: 1000px !important;
+        height: auto;
+        margin-top: 30px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 10px;
+        border-radius: 12px;
+        padding-bottom: 10px;
+        /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -10px,
+            rgba(0, 0, 0, 0.3) 0px 20px 50px -10px; */
+}
+.wrapper{
+    align-items:start;
+    justify-content: start;
+}
+.title{
+    justify-content: start !important;
+    font-size: 16px !important; 
+    margin-top: 10px;
+    margin-bottom: -4px;
+}
+.value{
+    font-size: 24px;
+}
+.v-line-1{
+    border-left: 2px solid #8f8989;  
+  height: 400px;
+ }
+ .v-line-2{
+    border-left: 2px solid #8f8989;  
+  height: 500px;
+ }
+ .enter-pass{
+    /* justify-content: center;
+    text-align: center;
+    align-items: center; */
+    margin-left: 110px;
+ }
+ .request{
+    margin-left: -110px;
+ }
+ .loading{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 10px;
+    margin-top: 300px;
+ }
+ .invisible-error{
+    visibility: hidden;
+}
+.visible-error{
+    color: red;
+    background-color: white;
+    font-size: 12px;
+    width: 200px;
+}

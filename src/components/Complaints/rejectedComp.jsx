@@ -1,0 +1,134 @@
+import { CardActionArea } from "@mui/material";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { Card } from "react-bootstrap";
+import "./complaint.css";
+import Pagination from "./Pagination";
+import Records from "./records";
+import { FormDialog } from "../Main/main";
+import { useAuth } from "../../context/auth";
+import logo from "../../image/no-record.jpg";
+import NewComplaint from "./newComplaint";
+import NoRecord from "../Main/NoRecord";
+
+const RejectedComplaints = () => {
+  const [compData, setCompData] = useState([]);
+  const [status, setStatus] = useState();
+  const [auth, setAuth] = useAuth();
+  const [loading, setLoading] = useState(true);
+  // const [temp, setTemp] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setRocordPerPage] = useState(10);
+
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+
+  // Records to be displayed on the current page
+  const currentRecords = compData.slice(indexOfFirstRecord, indexOfLastRecord);
+
+  //search-box
+  const [search, setSearch] = useState("");
+
+  const nPages = Math.ceil(compData.length / recordsPerPage);
+  // User is currently on this page
+
+  const temp = [];
+  var j = 0;
+
+  const initialized = useRef(false);
+
+  const fun = async () => {
+    try {
+      const res = await axios.get(
+        `https://complaint-box-backend-v2.onrender.com/rejected`
+      );
+
+      for (var i = 0; i < res.data.length; i++) {
+        if (auth.enum === 1) {
+          if (auth.email === res.data[i].email) {
+            temp[j++] = res.data[i];
+          }
+        } else if (auth.enum === 0) {
+          temp[j++] = res.data[i];
+        }
+      }
+      temp.sort((a, b) => parseInt(b.appId, 10) - parseInt(a.appId, 10));
+      setCompData(temp);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fun();
+  }, [auth]);
+
+  if (loading) {
+    return <div className="loading">Fetching data...</div>;
+  }
+
+  return (
+    <>
+      <div style={{ marginLeft: "150px", marginRight: "150px" }} className=" ">
+        <div className="container">
+          <div className="">
+            <FormDialog />
+          </div>
+          <div className=" row middle">
+            <div className="col-1"></div>
+            <div className="col-8 row">
+              <div className="col-3">
+                <NewComplaint />
+              </div>
+              <div className="col-6">
+                {currentRecords.length <= 0 ? (
+                  <input
+                    className=" search "
+                    disabled
+                    type="text"
+                    placeholder="Search by name"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                ) : (
+                  <input
+                    className=" search "
+                    type="text"
+                    placeholder="Search by name"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="col-2"></div>
+          </div>
+        </div>
+
+        <div className="mb-4 search-center">
+          <Records item={currentRecords} search={search} />
+        </div>
+        {currentRecords.length <= 0 ? (
+          <NoRecord />
+        ) : currentRecords.length < 10 ? (
+          <Pagination
+            disabled
+            nPages={nPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        ) : (
+          <Pagination
+            disabled
+            nPages={nPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+      </div>
+    </>
+  );
+};
+export default RejectedComplaints;
