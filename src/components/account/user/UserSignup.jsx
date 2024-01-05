@@ -12,6 +12,7 @@ const UserSignup = () => {
   const [username, setUsername] = useState("");
   const token = "";
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,6 +23,7 @@ const UserSignup = () => {
     if (username === "" || password === "" || email === "") {
       setError("Fill required details");
     } else {
+      setLoading(true);
       await axios
         .post("https://complaint-box-backend-v2.onrender.com/signup", {
           username,
@@ -47,6 +49,9 @@ const UserSignup = () => {
         .catch((e) => {
           setError("Something went wrong!");
           console.log(e);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }
@@ -104,13 +109,19 @@ const UserSignup = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div
-                className={
-                  error === undefined ? "invisible-error" : "visible-error mb-3"
-                }
-              >
-                {error}
-              </div>
+              {loading ? (
+                <h5 className="mb-3">Please wait...</h5>
+              ) : (
+                <div
+                  className={
+                    error !== undefined
+                      ? "visible-error mb-3"
+                      : "invisible-error"
+                  }
+                >
+                  {error}
+                </div>
+              )}
               <div>
                 <button
                   type="button"

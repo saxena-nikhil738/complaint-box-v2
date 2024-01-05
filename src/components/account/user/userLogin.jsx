@@ -6,6 +6,7 @@ import { useAuth } from "../../../context/auth";
 import image from "../../../image/login.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Spinner from "react-bootstrap/Spinner";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
@@ -14,61 +15,67 @@ const UserLogin = () => {
   const location = useLocation();
   const [auth, setAuth] = useAuth();
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
 
   async function submit(e) {
     e.preventDefault();
+
     if (email == "" || password === "") {
       setError("Fill required cridentials");
     } else {
-      await axios
-        .post("https://complaint-box-backend-v2.onrender.com/login", {
-          email,
-          password,
-        })
-        .then((res) => {
-          if (
-            res.data === "Password incorrect" ||
-            res.data === "user not found"
-          ) {
-            setError(res.data);
-          } else {
-            if (res.data.enum === 1) {
-              if (res.data !== null) {
-                toast.success("Logged in successfully !", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: "toast-message",
-                  autoClose: 2000,
-                });
-                setAuth({
-                  ...auth,
-                  username: res.data.username,
-                  enum: res.data.enum,
-                  email: res.data.email,
-                  token: res.data.token,
-                });
-
-                localStorage.setItem(
-                  "auth",
-                  JSON.stringify({
-                    username: res.data.username,
-                    email: res.data.email,
-                    enum: res.data.enum,
-                    token: res.data.token,
-                  })
-                );
-
-                navigate(location?.state?.prevUrl || "/");
-              }
-            } else {
-              setError("Invalid username password!");
-            }
+      setLoading(true);
+      try {
+        const res = await axios.post(
+          "https://complaint-box-backend-v2.onrender.com/login",
+          {
+            email,
+            password,
           }
-        })
+        );
+        if (
+          res.data === "Password incorrect" ||
+          res.data === "user not found"
+        ) {
+          setError(res.data);
+        } else {
+          if (res.data.enum === 1) {
+            if (res.data !== null) {
+              toast.success("Logged in successfully !", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: "toast-message",
+                autoClose: 2000,
+              });
+              setAuth({
+                ...auth,
+                check: true,
+                username: res.data.username,
+                enum: res.data.enum,
+                email: res.data.email,
+                token: res.data.token,
+              });
 
-        .catch((error) => {
-          setError("Something went wrong");
-          console.log(error);
-        });
+              localStorage.setItem(
+                "auth",
+                JSON.stringify({
+                  username: res.data.username,
+                  email: res.data.email,
+                  enum: res.data.enum,
+                  token: res.data.token,
+                })
+              );
+
+              navigate(location?.state?.prevUrl || "/");
+            }
+          } else {
+            setError("Invalid username password!");
+          }
+        }
+      } catch (error) {
+        setError("Something went wrong");
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -112,13 +119,20 @@ const UserLogin = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div
-                className={
-                  error === undefined ? "invisible-error" : "visible-error mb-3"
-                }
-              >
-                {error}
-              </div>
+
+              {loading ? (
+                <h5 className="mb-3">Please wait...</h5>
+              ) : (
+                <div
+                  className={
+                    error !== undefined
+                      ? "visible-error mb-3"
+                      : "invisible-error"
+                  }
+                >
+                  {error}
+                </div>
+              )}
               <div>
                 <button
                   type="button"
@@ -128,6 +142,8 @@ const UserLogin = () => {
                     height: "40px",
                     fontSize: "20px",
                     borderRadius: "24px",
+                    outline: "none",
+                    border: "none",
                   }}
                   className="btn btn-primary btn-lg btn-block"
                 >

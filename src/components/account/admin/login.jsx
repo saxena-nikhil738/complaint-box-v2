@@ -14,6 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [auth, setAuth] = useAuth();
+  const [loading, setLoading] = useState(false);
 
   async function submit(e) {
     e.preventDefault();
@@ -21,6 +22,7 @@ const Login = () => {
     if (email == "" || password === "") {
       setError("Fill required cridentials");
     } else {
+      setLoading(true);
       try {
         const res = await axios.post(
           "https://complaint-box-backend-v2.onrender.com/login",
@@ -44,6 +46,7 @@ const Login = () => {
               });
               setAuth({
                 ...auth,
+                check: true,
                 username: res.data.username,
                 enum: res.data.enum,
                 email: res.data.email,
@@ -68,6 +71,8 @@ const Login = () => {
       } catch (error) {
         setError("Somthing went wrong!");
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
   }
@@ -112,13 +117,19 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div
-                className={
-                  error === undefined ? "invisible-error" : "visible-error mb-3"
-                }
-              >
-                {error}
-              </div>
+              {loading ? (
+                <h5 className="mb-3">Please wait...</h5>
+              ) : (
+                <div
+                  className={
+                    error !== undefined
+                      ? "visible-error mb-3"
+                      : "invisible-error"
+                  }
+                >
+                  {error}
+                </div>
+              )}
               <div>
                 <button
                   type="button"
