@@ -35,13 +35,17 @@ export default function PrivateRoute() {
     fetchData();
   }, []);
 
-  const LoadingComponent = () => {
-    return <div className="loading">Loading...</div>;
-  };
-
-  if (loading) {
+    if (loading) {
     // Display a loading component while data is being fetched
-    return <LoadingComponent />;
+    return (
+      <>
+        <div className="spindiv">
+          <div className="spin">
+            <Spinner />
+          </div>
+        </div>
+      </>
+    )
   }
 
   return (
