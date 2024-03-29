@@ -1,4 +1,4 @@
-### Hosted link:
+### Live link:
 https://complaint-box-v2.vercel.app/
 
 # Getting Started with Create React App
