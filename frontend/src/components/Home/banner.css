@@ -73,7 +73,7 @@
     margin-left: 20px;
     font-weight: 500;
 }
-hr{
+.hr-01{
     margin: 10px 0px 0px;
 }
 .right-part{
@@ -132,7 +132,7 @@ li{
         margin: 5px;
         width: 100%;
     }
-    .banner-header, hr{
+    .banner-header, .hr-01{
         display: none;
         /* display: flex;
         flex-direction: column; */
