@@ -3,6 +3,7 @@ import { useAuth } from "../../context/auth";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Base_URL from "../../config/Config";
+import Spinner from "react-spinner-material";
 
 export default function PrivateRoute() {
   const [auth, setAuth] = useAuth();
