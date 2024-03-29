@@ -1,0 +1,39 @@
+.np-container{
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.np-data{
+    width: 700px;
+    display: flex;
+    justify-content: space-between;
+}
+.np-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media(max-width: 664px){
+    .np-container{
+        align-items: start;
+        margin-top: 20px;
+    }
+    .np-data{
+        display: flex;
+        flex-direction: column;
+    }
+    .np-img{
+        width: 300px;
+    }
+    .np-content{
+        align-items: center;
+    }
+    .np-content-data h1{
+        font-size: 32px;
+    }
+    .np-content-data h2{
+        font-size: 24px;
+    }
+}

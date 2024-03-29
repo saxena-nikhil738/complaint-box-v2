@@ -1,0 +1,25 @@
+.parent-about{
+    margin: 0px 10px;
+}
+.content-about{
+    font-size: 20px;
+}
+.display-4{
+    padding: 10px;
+    font-size: 32px;
+}
+.about{
+    margin: 0px;
+}
+
+@media (max-width: 664px){
+    .content-about{
+        font-size: 14px !important;
+        margin-top: 10px;
+   }
+    .display-4{
+        font-size: 20px;
+        padding: 10px;
+        margin: 0px;
+    }
+}

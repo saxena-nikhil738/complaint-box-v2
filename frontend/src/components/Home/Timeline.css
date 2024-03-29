@@ -1,0 +1,44 @@
+.wrapper-t{
+    margin: 5px;
+    background: rgba(0, 0, 0, 0.131);
+}
+.bounce-in{
+    padding: 10px 10px 0px;
+    /* background-color: rgb(23, 23, 22);
+    color: white; */
+}
+.vertical-timeline-element-content-arrow{
+    color: #000 ;
+}
+
+.title-tag{
+    font-size: 18px;
+    font-weight: 600;
+}
+.subtitle-tag{
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+.tl-feature{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+@media (max-width :664px){
+    .timeline-element{
+        height: auto;
+        padding: 0px;
+    }
+    .title-tag{
+        font-size: 12px;
+    }
+    .subtitle-tag{
+        font-size:10px;
+        margin-bottom: 6px;
+    }
+    .tl-feature{
+        font-size: 10px;
+        margin: 0px;
+    }
+}

@@ -1,0 +1,97 @@
+.comp-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    border-radius: 8px;
+}
+.form-data{
+    border: 1px solid rgb(120, 120, 120);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    width: 600px;
+    height: 400px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.715);
+}
+.complaint-title{
+    margin: 10px;
+}
+.label-enter{
+    width: 20%;
+    font-weight: 500;
+}
+.input{
+    font-size: 16px;
+   margin: 15px 10px;
+   
+}
+.inp{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 80%;
+    outline: none;
+}
+.form-container{
+    margin-top: 30px;
+    margin-left: 25px;
+    height: 90%;
+    width: 90%;
+}
+.comp-btn{
+    display: flex;
+    justify-content: end;
+    margin-right: 30px;
+    gap: 20px;
+    margin-top: 40px;
+}
+.sbmt{
+    background: #000;
+    color: white;
+    border-radius: 4px;
+}
+.cncl{
+    background: white;
+    border: 1px black solid;
+    border-radius: 4px;
+}
+
+@media(max-width: 664px){
+    .MuiPaper-rounded{
+        margin-top: 20px;
+    }
+    .form-data{
+        width: 300px;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+    }
+    .complaint-title{
+        margin-bottom: 20px;
+    }
+    .form-container{
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+    .input{
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+    .label-enter{
+        margin: 0px
+    }
+    .comp-btn{
+        margin: 0px;
+        margin-top: 40px;
+        margin-right: 10px;
+        /* height: 20px; */
+    }
+    .inp{
+        width: 90%;
+        font-size: 14px;
+    }
+}

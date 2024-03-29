@@ -1,0 +1,150 @@
+
+.parent-banner{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #000000e0;
+    color: white;
+    height: 600px;
+    margin: 5px;
+    border-radius: 4px;
+}
+
+.left-child{
+    width: 35%;
+    display: flex;
+    margin-top: 100px;
+    justify-content: space-around;
+}
+.welcome-left{
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.features-left{
+    margin: 30px 10px;
+    font-size: 18px;
+}
+.features-left ul li{
+    margin-bottom: 10px;
+}
+.km-btn-left{
+    display: flex;
+    font-size: 16px;
+    width: 100px;
+    padding: 0px 4px;
+    color: rgb(0, 0, 0);
+    background: white;
+    border-radius: 4px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 60px;
+    margin-left: 20px;
+}
+.right-child{
+    width: 65%;
+    display: flex;
+    flex-direction: row;
+}
+.right-content-banner{
+    width: 100%;
+    background: white;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 100px 120px;
+    height: 400px;
+}
+.banner-header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.banner-header ul {
+    font-size: 14px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.left-part{
+    width: 40%;
+    display: flex;
+    font-size: 16px;
+    margin-left: 20px;
+}
+.right-part{
+    width: 60%;
+}
+.wel-img{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+.welcome{
+    font-size: 16px;
+}
+.features{
+    margin: 30px 10px;
+    font-size: 14px;
+}
+.features ul li{
+    margin-bottom: 10px;
+}
+li{
+    list-style-type: none;
+
+}
+.km-btn{
+    background: #000;
+    margin-left: 20px;
+    color: white;
+    padding: 0px 4px;
+    border-radius: 4px;
+}
+.welcome-img{
+    width: 180px;
+}
+
+@media(max-width: 664px){
+    .parent-banner{
+        height: 600px;
+    }
+    .left-child{
+        display: none;
+    }
+    .right-child{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .right-content-banner{
+        height: 580px;
+        margin: 5px;
+        width: 100%;
+    }
+    .banner-header{
+        display: flex;
+        flex-direction: column;
+    }
+    .left-part{
+        margin: 0px;
+        width: 100%;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .right-part{
+        width: 100%;
+    }
+    .wel-img{
+        flex-direction: column;
+    }
+    .welcome-img{
+
+        margin: 10px 70px 0px;
+    }
+    .km-btn{
+        font-size: 14px;
+    }
+
+}

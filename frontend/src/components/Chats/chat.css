@@ -1,0 +1,127 @@
+.chat-container{
+    width: 1000px;
+    height: 750px;
+    margin: 80px 20px 10px;
+    border: solid 2px black;
+    border-radius: 12px;
+}
+.sidebar{
+    border-radius: 8px;
+    background-color: white;
+}
+.main-chat{
+    border-radius: 8px;
+    display: inline-block;
+    background-color: #ffffff;
+}
+.chat-head{
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 4px 8px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 2px 9px #191919;
+    border-radius: 4px;
+    
+}
+.chat-ids{
+  padding: 0px 8px;
+  margin-bottom: 8px;
+}
+.chat-id{
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    color: black;
+    background-color: #fcf9f9;
+    box-shadow: 1px 1px 1px #191919;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    padding: 2px 4px;
+
+}
+.main-chat-head{
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 4px 8px 2px;
+    box-shadow: 1px 2px 4px #191919;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+}
+.parent{
+    position: absolute;
+    padding: 4px;
+    bottom: 10px;
+    height: 50px;
+    width: 710px;
+    box-shadow: 1px 2px 4px #191919;
+    background-color: #ffffff;
+    border-radius: 28px;
+}
+.typing_div{
+    width: 650px;
+    height: 40px;
+    outline: none;
+    border: 0px;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 18px;
+    background-color: rgb(255, 255, 255);
+}
+.details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .pretty {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+  }
+  
+  .chat-left {
+    align-self: flex-start;
+    border-radius: 12px;
+    font-size: 16px;
+    min-height: 30px;
+    padding: 4px 8px !important;
+    max-width: 600px;
+    word-wrap: break-word; 
+    background-color: #aedef2; /* Light blue, you can change this color */
+  }
+  
+  .chat-right {
+    align-self: flex-end;
+    border-radius: 12px;
+    font-size: 16px;
+    min-height: 30px;
+    padding: 4px 8px !important;
+    word-wrap: break-word; 
+    max-width: 600px;
+    background-color: #adedad; /* Light green, you can change this color */
+  }
+  .chat-align{
+    overflow-y: scroll;
+    height: 570px;
+  }
+  .chat-align::-webkit-scrollbar {
+    display: none;
+}
+  .outer-chat{
+    width: 1000;
+    height: 800;
+    margin: 0px 280px 10px;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-flex-group: #000;
+
+  }
+  .sendIcon{
+    width: 50px;
+    margin: 10px 20px;
+  }
+  .flex{
+    background-color: rgb(255, 255, 255);
+  }

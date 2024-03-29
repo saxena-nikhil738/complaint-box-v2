@@ -1,0 +1,100 @@
+.v-line{
+    border-left: 2px solid #8f8989;  
+    height: 380px;
+    margin: 10px 0px;
+ }
+
+.toast-message{
+    font-size: 16px;
+}
+.container-log{
+    display: flex;
+    justify-content: center;
+    
+}
+.form-body-log{
+    display: flex;
+    justify-content: space-evenly;
+    width: 700px;
+    height: 400px;
+    border: 1px solid black;
+    box-shadow: 3px 3px 3px black;
+    margin-top: 80px;
+}
+.left-log{
+    display: flex;
+    /* align-items: center; */
+}
+.right-log{
+    display: flex;
+    align-items: center;
+}
+.log-img{
+    width: 260px;
+}
+
+.name-enter, .email-enter, .password-enter{
+    margin: 0px;
+}
+.form-login{
+    width: 100%;
+}
+.enter-det{
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+.btn-log-div{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.log-btn{
+    background: #000;
+    color: white;
+    border-radius: 4px;
+}
+.wait{
+    margin: 5px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.switch-links{
+    display: flex;
+    justify-content: center;
+}
+.switch-login{
+    display: flex;
+    justify-content: center;
+    color: black;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+@media(max-width: 664px){
+    .container-log{
+        height: 700px;
+    }
+    .form-body-log{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 520px ;
+        width: 280px;
+        margin: 10px;
+        position: relative;
+    }
+    .v-line{
+        display: none;
+    }
+    .log-img{
+        width: 150px ;
+        height: 150px;
+    }
+    .pls-log{
+        font-size: 24px;
+        text-align: center;
+    }
+    
+}

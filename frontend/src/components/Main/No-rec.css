@@ -1,0 +1,11 @@
+.nrf{
+    font-size: 20px;
+}
+@media(max-width: 664px){
+    .no-record-image{
+        width: 200px;
+    }
+    .nrf{
+        font-size: 14px;
+    }
+}
