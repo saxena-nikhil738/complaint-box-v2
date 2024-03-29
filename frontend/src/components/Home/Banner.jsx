@@ -37,7 +37,7 @@ const Banner = () => {
                 </ul>
               </div>
             </div>
-            <hr />
+            <hr classname="hr-01"/>
             <div className="wel-img">
               <div className="welcome">
                 Welcome to complaint box
