@@ -71,9 +71,16 @@
     display: flex;
     font-size: 16px;
     margin-left: 20px;
+    font-weight: 500;
+}
+hr{
+    margin: 10px 0px 0px;
 }
 .right-part{
     width: 60%;
+}
+.right-part ul{
+   margin: 0px;
 }
 .wel-img{
     display: flex;
@@ -107,7 +114,7 @@ li{
 
 @media(max-width: 664px){
     .parent-banner{
-        height: 600px;
+        height: 520px;
     }
     .left-child{
         display: none;
@@ -117,15 +124,18 @@ li{
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 500px;
+        margin-top: 10px;
     }
     .right-content-banner{
-        height: 580px;
+        height: 500px;
         margin: 5px;
         width: 100%;
     }
-    .banner-header{
-        display: flex;
-        flex-direction: column;
+    .banner-header, hr{
+        display: none;
+        /* display: flex;
+        flex-direction: column; */
     }
     .left-part{
         margin: 0px;
