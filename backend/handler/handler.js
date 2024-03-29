@@ -16,14 +16,14 @@ export const Signup = async (req, res) => {
   } else {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    await userauth.create(...req.body, {
+    await userauth.create(
+      {...req.body,
       enum: req.body.idfy,
       password: hashedPassword,
     });
     res.status(201).send({
       success: true,
       message: "User registered successfully",
-      user,
     });
   }
 };
