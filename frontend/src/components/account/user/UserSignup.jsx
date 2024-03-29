@@ -27,7 +27,7 @@ const UserSignup = () => {
       if (isValidEmail(email)) {
         setLoading(true);
         await axios
-          .post(`${Base_URL}/signu`, {
+          .post(`${Base_URL}/signup`, {
             username,
             idfy,
             email,
