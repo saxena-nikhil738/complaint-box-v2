@@ -5,6 +5,7 @@
     border: 1px solid black;
     justify-content: space-evenly;
     box-shadow: 5px 5px 5px rgb(51, 51, 51);
+    margin-top: 50px;
 }
 .left{
     display: flex;
