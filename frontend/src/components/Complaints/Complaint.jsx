@@ -10,6 +10,7 @@ import NoRecord from "../Main/NoRecord";
 import Spinner from "react-spinner-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Base_URL from "../../config/Config";
+import * as Cookies from "es-cookie";
 
 const Complaint = ({ ele }) => {
   const [compData, setCompData] = useState([]);
@@ -28,24 +29,23 @@ const Complaint = ({ ele }) => {
 
   async function fun() {
     const status = ele.charAt(0).toUpperCase() + ele.slice(1);
-    const endpoint = auth.enum === 1 ? `usercomp` : `admincomp`;
+
+    // const endpoint = auth.enum === 1 ? `usercomp` : `admincomp`;
+    const endpoint = `complaint`;
+    const token = Cookies.get("token");
     try {
       await axios
         .get(`${Base_URL}/${endpoint}`, {
+          headers: {
+            Authorization: token,
+          },
           params: {
-            email: auth.email,
             status: status,
           },
         })
         .then((res) => {
           for (var i = 0; i < res.data?.length; i++) {
-            if (auth.enum === 0) {
-              temp[j++] = res.data[i];
-            } else if (auth.enum === 1) {
-              if (auth.email === res.data[i].email) {
-                temp[j++] = res.data[i];
-              }
-            }
+            temp[j++] = res.data[i];
           }
           temp.sort((a, b) => parseInt(b.appId, 10) - parseInt(a.appId, 10));
           setCompData(temp);

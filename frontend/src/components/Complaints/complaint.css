@@ -137,6 +137,7 @@
     border-radius: 4px;
     transition: visibility 0s, opacity 0.5s;
     box-shadow: 0 3px 10px rgba(0,0,0,.2);
+    padding-bottom: 5px;
 }
 .card-content:hover {
     box-shadow: 0 3px 10px rgba(45, 45, 45, 0.9);
@@ -144,6 +145,10 @@
     background: rgb(255, 255, 255);
     text-decoration: none;
   }
+  .option-complaint{
+    height: 28px;
+  }
+  
 .data{
     width: 100%;
 }
@@ -168,11 +173,44 @@
 .comp{
     width: 100%;
 }
+.ele-size{
+    font-size: 16px;
+}
 .ele-weight{
     font-weight: 500;
+    margin-right: 5px;
 }
 .row-wise-ml{
-    margin-left: 20px;
+    margin: 0px 20px 0px 20px;
+    display: flex;
+}
+.note-input{
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    margin: 0px 10px 5px 5px;
+    width: 85%;
+}
+.note{
+    width: 100%;
+}
+.add-note{
+    margin: 10px;
+    width: 100px;
+    height: 30px;
+    background: #000;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.add-note-detail{
+    cursor: pointer;
+    width: 68px;
+    height: 28px;
+    background: #000;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
 }
 /*  */
 
@@ -253,15 +291,42 @@
         display: none;
     }
     .ele-size{
-        font-size: 12px;
+        font-size: 14px !important;
     }
-    
+    .ele-size-mb{
+        font-size: 14px;
+    }
+    .option-complaint{
+        font-size: 14px;
+        height: 22px;
+    }
+    .add-note-detail{
+        width: 60px;
+        height: 24px;
+    }
+    .cancel-modify{
+        font-size: 12px;
+        border: none;
+        border-radius: 4px;
+    }
+    .add-note{
+        font-size: 12px;
+        width: 60px;
+        height: 24px;
+    }
+    .note{
+        font-size: 14px;
+    }
+    .note-input{
+        width: 70%;
+    }
     .row-wise{
         margin: 5px;
     }
     .data-detail{
         padding: 10px;
     }
+    
 }
 @media (max-width: 998px){
     .left-right{

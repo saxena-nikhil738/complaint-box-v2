@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
  }
- .menu-link-1 a{
+ .menu-link-1 Link{
     text-decoration: none;
  }
  .hamburger{
@@ -33,6 +33,13 @@
     margin: 0px;
     padding: 0px;
     font-size: 18px;
+}
+.logo-link-1{
+    font-weight: 600;
+    color: black;
+}
+.logo-link-1 :hover{
+    text-decoration: none;
 }
 .link-1{
     display: flex;
@@ -64,6 +71,9 @@
     .menu-link-1{
         display: none;
     }
+    .logo-link-1{
+        color: white;
+    }
     .mobile-link{
         flex-direction: column;
         box-shadow: 7px 7px 5px rgb(137, 137, 137);
@@ -72,8 +82,7 @@
         border-radius: 4px;
     }
     .mobile-link ul{
-        list-style-type: none;
-        margin-bottom: 0px;
+        transition: all .5s;
         display: flex;
         flex-direction: column;
         justify-content: start;

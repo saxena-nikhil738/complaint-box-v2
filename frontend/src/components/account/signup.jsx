@@ -1,31 +1,90 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Login from "./login";
 import TextField from "@mui/material/TextField";
-import "./UserSignup.css";
-import image from "../../../image/login.jpg";
+import "./signup.css";
+import image from "../../image/login.jpg";
+import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
-import Base_URL from "../../../config/Config";
+import Base_URL from "../../config/Config";
+import * as Cookies from "es-cookie";
 
-const UserSignup = () => {
+const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const token = "";
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
   const idfy = location.pathname === "/usersignup" ? 1 : 0;
+  const token = Cookies.get("token");
+  const endpoint = window.location.pathname.split("/").pop();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const [auth, setAuth] = useAuth();
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
+  const Signup = async (req, res) => {
     if (username === "" || password === "" || email === "") {
-      setError("Fill required details");
+      setError("Fill requires cridentials!");
     } else {
+      setLoading(true);
       if (isValidEmail(email)) {
-        setLoading(true);
+        await axios
+          .post(
+            `${Base_URL}/signup`,
+            {
+              username,
+              idfy,
+              email,
+              password,
+            },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          )
+          .then((res) => {
+            setError(res.data.message);
+            if (!res.data.success) {
+              setError(res.data.message);
+            } else {
+              toast.success("User registered!", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: "toast-message",
+                autoClose: 2000,
+              });
+              navigate("/dashboard");
+            }
+          })
+          .catch((e) => {
+            alert("Something went wrong");
+            console.log(e);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        toast.warning("Invalid email");
+      }
+    }
+  };
+
+  const UserSignup = async (e) => {
+    e.preventDefault();
+
+    if (username === "" || password === "" || email === "") {
+      setError("Fill requires cridentials!");
+    } else {
+      setLoading(true);
+      if (isValidEmail(email)) {
         await axios
           .post(`${Base_URL}/signup`, {
             username,
@@ -36,7 +95,6 @@ const UserSignup = () => {
           })
           .then((res) => {
             setError(res.data.message);
-
             if (!res.data.success) {
               setError(res.data.message);
             } else {
@@ -45,11 +103,11 @@ const UserSignup = () => {
                 className: "toast-message",
                 autoClose: 2000,
               });
-              navigate("/userlogin");
+              navigate("/dashboard");
             }
           })
           .catch((e) => {
-            setError("Something went wrong!");
+            alert("Something went wrong");
             console.log(e);
           })
           .finally(() => {
@@ -59,7 +117,8 @@ const UserSignup = () => {
         toast.warning("Invalid email");
       }
     }
-  }
+  };
+
   function isValidEmail(email) {
     // Regular expression pattern for basic email validation
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,25 +127,26 @@ const UserSignup = () => {
 
   return (
     <div className="container-log ">
-      <div className="form-body-log ">
+      <div className="form-body-log">
         <div className="left-log">
           <img className="log-img" src={image} alt="" />
         </div>
-        <div className="v-line "></div>
+        <div className="v-line-log "></div>
         <div className="right-log">
           <div className="">
             <h3 className="pls-log">
-              Hello User <br />
+              Hello Admin <br />
               please Sign up!
             </h3>
-            <div className="form-login">
+            <div className="login-form">
               <div className="name-enter">
-                <label className="enter-det">Username</label>
+                <label className="enter-det">Name</label>
                 <input
-                  className="inputx"
+                  className="inputx "
                   required
-                  type="text"
                   placeholder="Username"
+                  type="text"
+                  label="Username"
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
@@ -96,21 +156,23 @@ const UserSignup = () => {
               <div className="email-enter">
                 <label className="enter-det">Email</label>
                 <input
-                  className="inputx"
+                  className=" inputx"
                   required
-                  type="text"
-                  placeholder="Username"
+                  placeholder="Email"
+                  type="email"
+                  label="Enter email"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
-                  id="username"
+                  id="email"
                 />
+                <br />
               </div>
               <div className="password-enter">
                 <label className="enter-det">Password</label>
                 <input
                   required
-                  className="border-1 inputx "
+                  className="border-1 inputx"
                   type="password"
                   placeholder="Password"
                   id="password"
@@ -118,9 +180,7 @@ const UserSignup = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              {!isValidEmail(email) ? (
-                ""
-              ) : loading ? (
+              {loading ? (
                 <h5 className="wait">Please wait...</h5>
               ) : (
                 <div
@@ -132,19 +192,23 @@ const UserSignup = () => {
                 </div>
               )}
               <div className="btn-log-div">
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  className="log-btn"
-                >
-                  Sign up
-                </button>
+                {endpoint === "signup" ? (
+                  <button type="button" onClick={Signup} className="log-btn">
+                    Sign up
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={UserSignup}
+                    className="log-btn"
+                  >
+                    Sign up
+                  </button>
+                )}
               </div>
-            </div>
-            <div className="switch-links">
-              <Link className="switch-login" to={"/userlogin"}>
-                Have an account?
-              </Link>
+              <div className="switch-login">
+                <Link to={"/dashboard"}>Back</Link>
+              </div>
             </div>
           </div>
         </div>
@@ -152,4 +216,4 @@ const UserSignup = () => {
     </div>
   );
 };
-export default UserSignup;
+export default Signup;

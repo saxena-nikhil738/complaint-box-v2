@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/auth";
+import { useAuth } from "../../context/auth";
 import "./login.css";
-import image from "../../../image/login.jpg";
+import image from "../../image/login.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Base_URL from "../../../config/Config";
+import Base_URL from "../../config/Config";
+import * as Cookies from "es-cookie";
+import Spinner from "react-spinner-material";
 
 const Login = () => {
   const location = useLocation();
@@ -17,6 +19,10 @@ const Login = () => {
   const [auth, setAuth] = useAuth();
   const [loading, setLoading] = useState(false);
 
+  let endpoint;
+  if (window.location.pathname.split("/").pop() === "userlogin") endpoint = 1;
+  if (window.location.pathname.split("/").pop() === "login") endpoint = 0;
+
   async function submit(e) {
     e.preventDefault();
 
@@ -26,6 +32,7 @@ const Login = () => {
       setLoading(true);
       try {
         const res = await axios.post(`${Base_URL}/login`, {
+          endpoint,
           email,
           password,
         });
@@ -35,36 +42,22 @@ const Login = () => {
         ) {
           setError(res.data);
         } else {
-          if (res.data.enum === 0) {
-            if (res.data !== null) {
-              toast.success("Logged in successfully !", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: "toast-message",
-                autoClose: 2000,
-              });
-              setAuth({
-                ...auth,
-                check: true,
-                username: res.data.username,
-                enum: res.data.enum,
-                email: res.data.email,
-                token: res.data.token,
-              });
-              localStorage.setItem(
-                "auth",
-                JSON.stringify({
-                  username: res.data.username,
-                  email: res.data.email,
-                  enum: res.data.enum,
-                  token: res.data.token,
-                })
-              );
+          const data = res.data.obj;
 
-              navigate(location?.state?.prevUrl || "/");
-            }
-          } else {
-            setError("Invalid username password!");
+          Cookies.set("token", res.data.token);
+          Cookies.set("data", JSON.stringify(data));
+          setAuth(data);
+          if (res.data !== null) {
+            toast.success("Logged in successfully !", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: "toast-message",
+              autoClose: 2000,
+            });
+            navigate(location?.state?.prevUrl || "/");
           }
+          // } else {
+          setError("Invalid username password!");
+          // }
         }
       } catch (error) {
         setError("Somthing went wrong!");
@@ -92,7 +85,6 @@ const Login = () => {
               <div className="enter-det">
                 <label className="email-enter">Email</label>
                 <input
-                  // style={{ fontSize: "60px", height: "50px" }}
                   className=" inputx"
                   required
                   placeholder="Enter email"
@@ -115,7 +107,10 @@ const Login = () => {
                 />
               </div>
               {loading ? (
-                <h5 className="wait">Please wait...</h5>
+                <div className="spin-div">
+                  <Spinner className="spin" radius={25} color={"#000"} />
+                  Please wait...
+                </div>
               ) : (
                 <div
                   className={
@@ -131,8 +126,17 @@ const Login = () => {
                 </button>
               </div>
               <div className="switch-links">
-                <Link className="switch-login" to={"/userlogin"}>
-                  User login?
+                {!endpoint ? (
+                  <Link className="switch-login" to={"/userlogin"}>
+                    User login?
+                  </Link>
+                ) : (
+                  <Link className="switch-login" to={"/login"}>
+                    Admin login?
+                  </Link>
+                )}
+                <Link className="switch-login" to={"/usersignup"}>
+                  Create Account?
                 </Link>
               </div>
             </div>

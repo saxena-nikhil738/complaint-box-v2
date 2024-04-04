@@ -1,4 +1,4 @@
-.v-line{
+.v-line-log{
     border-left: 2px solid #8f8989;  
     height: 380px;
     margin: 10px 0px;
@@ -21,9 +21,18 @@
     box-shadow: 3px 3px 3px black;
     margin-top: 80px;
 }
+.spin{
+    margin-right: 10px;
+}
+.spin-div{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
 .left-log{
     display: flex;
-    /* align-items: center; */
+    align-items: center;
 }
 .right-log{
     display: flex;
@@ -31,9 +40,10 @@
 }
 .log-img{
     width: 260px;
+    height: 234px;
 }
 
-.name-enter, .email-enter, .password-enter{
+.email-enter, .password-enter{
     margin: 0px;
 }
 .form-login{
@@ -53,7 +63,6 @@
     background: #000;
     color: white;
     border-radius: 4px;
-    cursor: pointer;
 }
 .wait{
     margin: 5px;
@@ -62,14 +71,12 @@
 }
 .switch-links{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 }
-.switch-login{
+.switch-create, .switch-login{
     display: flex;
     justify-content: center;
     color: black;
-    margin-top: 2px;
-    cursor: pointer;
 }
 
 @media(max-width: 664px){
@@ -86,19 +93,16 @@
         margin: 10px;
         position: relative;
     }
-    .v-line{
+    .v-line-log{
         display: none;
     }
     .log-img{
-        width: 150px ;
-        height: 150px;
+        width: 180px ;
+        height: 160px;
     }
     .pls-log{
         font-size: 24px;
         text-align: center;
-    }
-    .visible-error{
-        font-size: 12px;
     }
     
 }

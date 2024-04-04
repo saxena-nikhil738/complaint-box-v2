@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useContext, useState } from "react";
+import * as Cookies from "es-cookie";
 
 const AuthContext = createContext();
 
@@ -8,37 +9,31 @@ const AuthProvider = ({ children }) => {
     username: "",
     enum: "",
     email: "",
-    token: "",
-    check: true,
   });
 
-  //default axios
-  axios.defaults.headers.common["Authorization"] = auth?.token;
-
   useEffect(() => {
-    const data = localStorage.getItem("auth");
-
-    if (data) {
-      const parseData = JSON.parse(data);
-      setAuth({
-        ...auth,
-        username: parseData.username,
-        enum: parseData.enum,
-        email: parseData.email,
-        token: parseData.token,
-      });
+    async function fetchData() {
+      try {
+        const myData = Cookies.get("data");
+        if (myData) {
+          const parsedData = JSON.parse(myData);
+          setAuth(parsedData);
+        }
+      } catch (error) {
+        console.error("Error setting auth data:", error);
+      }
     }
+    fetchData();
   }, []);
 
   return (
-    <>
-      <AuthContext.Provider value={[auth, setAuth]}>
-        {children}
-      </AuthContext.Provider>
-    </>
+    <AuthContext.Provider value={[auth, setAuth]}>
+      {children}
+    </AuthContext.Provider>
   );
 };
-//custom hook
+
+// Custom hook
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider };

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import "./NewComplaint.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Base_URL from "../../config/Config";
+import * as Cookies from "es-cookie";
 
 export default function NewComplaint() {
   const [open, setOpen] = useState(false);
@@ -23,7 +24,7 @@ export default function NewComplaint() {
   const [category, setCategory] = useState();
   const [description, setDescription] = useState();
   const [error, setError] = useState();
-
+  const token = Cookies.get("token");
   const note = undefined;
 
   const handleClickOpen = () => {
@@ -66,25 +67,30 @@ export default function NewComplaint() {
         "/" +
         d.getFullYear();
       await axios
-        .post(`${Base_URL}/createcomplaint`, {
-          appId,
-          note,
-          dateTime,
-          name,
-          email,
-          category,
-          description,
-          status,
-        })
-        .then((res) => {
-          if (res.data === "info") {
-            handleClose();
-            toast.success("Complaint registered!", {
-              position: toast.POSITION.TOP_RIGHT,
-              className: "toast-message",
-              autoClose: 2000,
-            });
+        .post(
+          `${Base_URL}/createcomplaint`,
+          {
+            appId,
+            note,
+            dateTime,
+            name,
+            email,
+            category,
+            description,
+            status,
+          },
+          {
+            headers: { Authorization: token },
           }
+        )
+        .then((res) => {
+          toast.success(res.data.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "toast-message",
+            autoClose: 2000,
+          });
+
+          handleClose();
           setCategory(undefined);
           setDescription(undefined);
         })
@@ -177,7 +183,7 @@ export default function NewComplaint() {
                 <div className="comp-btn">
                   <button
                     className="cncl"
-                    style={{ outline: "none" }}
+                    style={{ outline: "none", cursor: "pointer" }}
                     variant="outlined"
                     type="reset"
                     onClick={handleClose}
@@ -186,7 +192,11 @@ export default function NewComplaint() {
                   </button>
                   <button
                     className="sbmt"
-                    style={{ outline: "none", border: "none" }}
+                    style={{
+                      outline: "none",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
                     variant="contained"
                     onClick={submit}
                   >

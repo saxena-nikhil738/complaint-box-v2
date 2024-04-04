@@ -1,11 +1,8 @@
 import "./App.css";
 import Header from "./components/Header/header";
 import { Routes, Route } from "react-router-dom";
-import Login from "./components/account/admin/login";
-import Signup from "./components/account/admin/signup";
-import Pendingcomplaints from "./components/Complaints/pendingComp";
-import UserLogin from "./components/account/user/userLogin";
-import UserSignup from "./components/account/user/UserSignup";
+import Login from "./components/account/login";
+import Signup from "./components/account/signup";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -37,7 +34,7 @@ function App() {
             <Route path="chat" element={<ChatSidebar />} />
             <Route path="allcomplaint" element={<Complaint ele={"all"} />} />
             <Route path="approved" element={<Complaint ele={"approved"} />} />
-            <Route path="pending" element={<Pendingcomplaints />} />
+            <Route path="pending" element={<Complaint ele={"pending"} />} />
             <Route path="rejected" element={<Complaint ele={"rejected"} />} />
             <Route
               path="processing"
@@ -49,8 +46,8 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/userlogin" element={<UserLogin />} />
-          <Route path="/usersignup" element={<UserSignup />} />
+          <Route path="/userlogin" element={<Login />} />
+          <Route path="/usersignup" element={<Signup />} />
           <Route path="/logout" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

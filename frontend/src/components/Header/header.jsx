@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import * as Cookies from "es-cookie";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Header = () => {
   const [hambed, setHambed] = useState(false);
   const [auth, setAuth] = useAuth();
   const [dash, setDash] = useState();
+  const token = Cookies.get("token");
 
   const toggle = () => {
     setAuth({
@@ -23,13 +25,14 @@ const Header = () => {
       username: "",
       enum: "",
       email: "",
-      token: "",
     });
     toast.error("Logged out!", {
       position: toast.POSITION.TOP_RIGHT,
       className: "toast-message",
       autoClose: 2000,
     });
+    Cookies.remove("token");
+    Cookies.remove("data");
     localStorage.removeItem("auth");
     // navigate("/");
   };
@@ -40,9 +43,9 @@ const Header = () => {
         {/* Logo */}
         <div className="hamb-cont">
           <div className="logo">
-            <a onClick={() => navigate("/")} className="link-1">
+            <Link to={"/"} className="logo-link-1">
               ComplaintBox
-            </a>
+            </Link>
           </div>
           {/* Menu links */}
           <div
@@ -61,46 +64,46 @@ const Header = () => {
         >
           <ul>
             <li>
-              <a href="/" className="link-1">
+              <Link to="/" className="link-1">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/about" className="link-1">
+              <Link to="/about" className="link-1">
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/main/allcomplaint" className="link-1">
+              <Link to="/main/allcomplaint" className="link-1">
                 Complaints
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/dashboard" className="link-1">
+              <Link to="/dashboard" className="link-1">
                 Dashboard
-              </a>
+              </Link>
             </li>
 
             <li>
-              {auth?.token ? (
-                <a
-                  href="/logout"
+              {token ? (
+                <Link
+                  to="/logout"
                   id="logout"
                   className="link-1"
                   variant="primary"
                   onClick={toggle}
                 >
                   Logout
-                </a>
+                </Link>
               ) : (
-                <a
-                  href="/userlogin"
+                <Link
+                  to="/userlogin"
                   id="logout"
                   className="link-1"
                   variant="primary"
                 >
                   Login
-                </a>
+                </Link>
               )}
             </li>
           </ul>
