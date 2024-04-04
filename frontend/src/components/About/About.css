@@ -10,6 +10,7 @@
 }
 .about{
     margin: 0px;
+    margin-top: 50px;
 }
 
 @media (max-width: 664px){
