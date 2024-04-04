@@ -3,6 +3,7 @@ import { useAuth } from "../../context/auth";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Base_URL from "../../config/Config";
+import Spinner from "react-spinner-material";
 
 export default function PrivateRoute() {
   const [auth, setAuth] = useAuth();
@@ -35,13 +36,17 @@ export default function PrivateRoute() {
     fetchData();
   }, []);
 
-  const LoadingComponent = () => {
-    return <div className="loading">Loading...</div>;
-  };
-
-  if (loading) {
+    if (loading) {
     // Display a loading component while data is being fetched
-    return <LoadingComponent />;
+    return (
+      <>
+        <div className="spindiv">
+          <div className="spin">
+            <Spinner />
+          </div>
+        </div>
+      </>
+    )
   }
 
   return (

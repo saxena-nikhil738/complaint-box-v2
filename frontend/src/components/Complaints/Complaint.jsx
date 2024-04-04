@@ -67,12 +67,7 @@ const Complaint = ({ ele }) => {
   if (loading) {
     return (
       <div className="spindiv">
-        <div
-          className="spin"
-          style={{
-            width: "100px",
-          }}
-        >
+        <div className="spin">
           <Spinner />
         </div>
       </div>
