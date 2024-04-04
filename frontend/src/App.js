@@ -45,9 +45,9 @@ function App() {
             <Route path="" element={<Dashboard />} />
           </Route>
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup endpoint={"signup"} />} />
           <Route path="/userlogin" element={<Login />} />
-          <Route path="/usersignup" element={<Signup />} />
+          <Route path="/usersignup" element={<Signup endpoint={"usersignup"} />} />
           <Route path="/logout" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
