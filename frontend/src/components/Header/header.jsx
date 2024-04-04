@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLinkedin, FaInstagramSquare } from "react-icons/fa";
 import "./header.css";
@@ -20,6 +20,7 @@ const Header = () => {
   const token = Cookies.get("token");
 
   const toggle = () => {
+    setHambed(false);
     setAuth({
       ...auth,
       username: "",
@@ -31,6 +32,7 @@ const Header = () => {
       className: "toast-message",
       autoClose: 2000,
     });
+
     Cookies.remove("token");
     Cookies.remove("data");
     localStorage.removeItem("auth");
@@ -64,22 +66,34 @@ const Header = () => {
         >
           <ul>
             <li>
-              <Link to="/" className="link-1">
+              <Link to="/" className="link-1" onClick={() => setHambed(false)}>
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/about" className="link-1">
+              <Link
+                to="/about"
+                className="link-1"
+                onClick={() => setHambed(false)}
+              >
                 About
               </Link>
             </li>
             <li>
-              <Link to="/main/allcomplaint" className="link-1">
+              <Link
+                to="/main/allcomplaint"
+                className="link-1"
+                onClick={() => setHambed(false)}
+              >
                 Complaints
               </Link>
             </li>
             <li>
-              <Link to="/dashboard" className="link-1">
+              <Link
+                to="/dashboard"
+                className="link-1"
+                onClick={() => setHambed(false)}
+              >
                 Dashboard
               </Link>
             </li>
@@ -101,6 +115,7 @@ const Header = () => {
                   id="logout"
                   className="link-1"
                   variant="primary"
+                  onClick={() => setHambed(false)}
                 >
                   Login
                 </Link>
