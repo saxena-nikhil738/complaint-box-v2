@@ -10,7 +10,7 @@
 .container-log{
     display: flex;
     justify-content: center;
-    
+    margin-top: 50px;
 }
 .form-body-log{
     display: flex;
