@@ -1,147 +1,186 @@
 import { userauth } from "../models/db.js";
 import { complaintData } from "../models/complaint-model.js";
 import bcrypt from "bcrypt";
+import Jwt from "jsonwebtoken";
 
-export const Signup = async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  const username = req.body.username;
+export const UserSignup = async (req, res) => {
+  try {
+    const { email, password, username } = req.body;
 
-  const check = await userauth.findOne({ email: email });
-  if (check) {
-    res.send({
-      success: false,
-      message: "User Already exist please login",
-    });
-  } else {
+    // Check if the user already exists
+    const existingUser = await userauth.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists. Please login.",
+      });
+    }
+
+    // Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    await userauth.create(...req.body, {
-      enum: req.body.idfy,
+
+    // Create a new user
+    await userauth.create({
+      email,
       password: hashedPassword,
+      username,
+      enum: req.body.idfy, // Assuming idfy is provided in the request body
     });
-    res.status(201).send({
+
+    // Send success response
+    res.status(201).json({
       success: true,
       message: "User registered successfully",
-      user,
+    });
+  } catch (error) {
+    console.error("Error during user registration:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
     });
   }
 };
 
-export const Login = async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+export const Signup = async (req, res) => {
+  try {
+    const { email, password, username } = req.body;
 
-  const check = await userauth.findOne({ email: email });
-  if (check) {
-    const match = await bcrypt.compare(password, check.password);
-    if (match) {
-      const token = await check.generateAuthToken();
-      check.token = token;
-      res.status(200).send(check);
-    } else {
-      res.status(400).send("Password incorrect");
+    // Check if the user already exists
+    const existingUser = await userauth.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists. Please login.",
+      });
     }
-  } else {
-    res.status(404).send("user not found");
+
+    // Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create a new user
+    await userauth.create({
+      email,
+      password: hashedPassword,
+      username,
+      enum: res.locals.type, // Assuming idfy is provided in the request body
+    });
+
+    // Send success response
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+    });
+  } catch (error) {
+    console.error("Error during user registration:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
 
-export const AuthToken = async (req, res) => {
+export const Sign = async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const endpoint = req.body.endpoint;
+  const jwtExpireTime = 86400;
+
   try {
-    const found = await userauth.findOne({ email: req.body.email });
-    if (!found) {
-      res.status(404).send({ success: false, message: "Email not found" });
-    } else {
-      if (req.body.enu === found.enum && req.body.jwt === found.token) {
-        res.status(200).send({ success: true, message: "successfull" });
-      } else {
-        res.status(400).send({ success: false, msg: "something wrong" });
+    const check = await userauth.findOne({ email: email, enum: endpoint });
+    if (check) {
+      try {
+        const match = await bcrypt.compare(password, check.password);
+        if (match) {
+          const type = check.enum;
+          const tokenT = Jwt.sign({ email, type }, process.env.SECRET_KEY, {
+            algorithm: "HS256",
+            expiresIn: jwtExpireTime,
+          });
+
+          const obj = {
+            username: check.username,
+            email: check.email,
+            enum: check.enum,
+          };
+          res.status(200).send({ obj: obj, token: tokenT });
+        } else {
+          res.status(400).send("Password incorrect");
+        }
+      } catch (error) {
+        console.error("Error comparing passwords:", error);
+        res.status(500).send("Internal Server Error");
       }
+    } else {
+      res.status(404).send("User not found");
     }
   } catch (error) {
-    res.status(405).send({ success: false, msg: "something wrong" });
+    console.error("Error finding user:", error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
 export const CreateComplaint = async (req, res) => {
   try {
-    const info = await complaintData.create(req.body);
-    return res.status(200).send("info");
+    const email = res.locals.id;
+    const info = await complaintData.create({ ...req.body, email: email });
+    return res.status(200).json({ message: "Complaint Registered!" });
   } catch (err) {
-    return res.status.send(err);
+    console.error("Error creating complaint:", err);
+    return res.status(500).json({ message: "Failed to create complaint" });
   }
 };
 
-export const USerComplaint = async (req, res) => {
-  if (req.query.status === "All") {
-    try {
-      const comps = await complaintData.find({ email: req.query.email });
-      res.status(200).send(comps);
-    } catch (error) {
-      res.status(400).send({ message: "No record" });
+export const Complaint = async (req, res) => {
+  const email = res.locals.id;
+  const type = res.locals.type;
+  const status = req.query.status;
+
+  try {
+    let comps;
+    if (type === 1) {
+      if (status === "All") {
+        comps = await complaintData.find({ email });
+      } else {
+        comps = await complaintData.find({ email, status });
+      }
+    } else {
+      if (status === "All") {
+        comps = await complaintData.find();
+      } else {
+        comps = await complaintData.find({ status });
+      }
     }
-  } else {
-    try {
-      const comps = await complaintData.find({
-        email: req.query.email,
-        status: req.query.status,
-      });
-      res.status(200).send(comps);
-    } catch (error) {
-      res.status(400).send({ message: "No record" });
+    if (comps.length === 0) {
+      return res.status(200).send([]);
     }
+    res.status(200).send(comps);
+  } catch (error) {
+    console.error("Error fetching complaints:", error);
+    res.status(500).send({ message: "Failed to fetch complaints" });
   }
 };
 
-export const AdminComplaint = async (req, res) => {
-  if (req.query.status === "All") {
-    try {
-      const comps = await complaintData.find();
-      res.status(200).send(comps);
-    } catch (error) {
-      res.status(400).send({ message: "No record" });
-    }
-  } else {
-    try {
-      const comps = await complaintData.find({
-        status: req.query.status,
-      });
-      res.status(200).send(comps);
-    } catch (error) {
-      res.status(400).send({ message: "No record" });
-    }
-  }
-};
-
-export const UpdateStatus = async (req, res) => {
-  const result = await complaintData
-    .updateOne(
-      { _id: req.body.id },
+export const UpdateComplaint = async (req, res) => {
+  const doc_id = req.body.id;
+  const state = req.body.state;
+  const note = req.body.newNote;
+  try {
+    const result = await complaintData.updateOne(
+      { _id: doc_id },
       {
         $set: {
-          status: req.body.state,
+          status: state,
+          note: note,
         },
       }
-    )
-    .then((result) => {
-      // console.log(result);
-    })
-    .catch((e) => console.log(e));
-};
-
-export const AddNote = async (req, res) => {
-  const result = await complaintData
-    .updateOne(
-      { _id: req.body.id },
-      {
-        $set: {
-          note: req.body.value,
-        },
-      }
-    )
-    .then((result) => {})
-    .catch((e) => console.log(e));
+    );
+    res.status(200).send("Status updated successfully");
+  } catch (error) {
+    console.error("Error updating status:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 export const ChangePassword = async (req, res) => {

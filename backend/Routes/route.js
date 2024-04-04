@@ -1,37 +1,34 @@
 import express from "express";
 import dotenv from "dotenv";
 import {
-  AddNote,
-  AdminComplaint,
-  AuthToken,
   ChangePassword,
   CreateComplaint,
-  Login,
+  Sign,
   Signup,
-  USerComplaint,
-  UpdateStatus,
+  Complaint,
+  UpdateComplaint,
+  UserSignup,
 } from "../handler/handler.js";
+import { checkAuth } from "../handler/checkAuth.js";
 
 const router = express.Router();
 dotenv.config();
 router.use(express.json());
+router.get("/", (req, res) => {
+  res.send("Server is running");
+});
 
-router.post("/signup", Signup);
+router.post("/signup", checkAuth, Signup);
+router.post("/usersignup", UserSignup);
 
-router.post("/login", Login);
+router.post("/login", Sign);
 
-router.post("/tokenmatch", AuthToken);
+router.post("/createcomplaint", checkAuth, CreateComplaint);
 
-router.post("/createcomplaint", CreateComplaint);
+router.get("/complaint", checkAuth, Complaint);
 
-router.get("/usercomp", USerComplaint);
+router.put("/update", checkAuth, UpdateComplaint);
 
-router.get("/admincomp", AdminComplaint);
-
-router.put("/updatedstatus", UpdateStatus);
-
-router.put("/noteadded", AddNote);
-
-router.put("/dashboard/changePass", ChangePassword);
+router.put("/dashboard/changePass", checkAuth, ChangePassword);
 
 export default router;
