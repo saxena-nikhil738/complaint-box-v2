@@ -1,16 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Login from "./login";
-import TextField from "@mui/material/TextField";
 import "./signup.css";
 import image from "../../image/login.jpg";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
 import Base_URL from "../../config/Config";
 import * as Cookies from "es-cookie";
+import Spinner from "react-spinner-material";
 
-const Signup = () => {
+const Signup = ({ endpoint }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -20,17 +19,11 @@ const Signup = () => {
   const location = useLocation();
   const idfy = location.pathname === "/usersignup" ? 1 : 0;
   const token = Cookies.get("token");
-  const endpoint = window.location.pathname.split("/").pop();
 
-  const [auth, setAuth] = useAuth();
-
-  useEffect(() => {
+  const AdminSignup = async (req, res) => {
     if (!token) {
       navigate("/login");
     }
-  }, []);
-
-  const Signup = async (req, res) => {
     if (username === "" || password === "" || email === "") {
       setError("Fill requires cridentials!");
     } else {
@@ -52,20 +45,18 @@ const Signup = () => {
             }
           )
           .then((res) => {
-            setError(res.data.message);
             if (!res.data.success) {
               setError(res.data.message);
-            } else {
-              toast.success("User registered!", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: "toast-message",
-                autoClose: 2000,
-              });
-              navigate("/dashboard");
             }
+            toast.success(res.data.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: "toast-message",
+              autoClose: 2000,
+            });
+            if (res.status !== 208) navigate("/dashboard");
           })
           .catch((e) => {
-            alert("Something went wrong");
+            setError("Something went wrong");
             console.log(e);
           })
           .finally(() => {
@@ -86,7 +77,7 @@ const Signup = () => {
       setLoading(true);
       if (isValidEmail(email)) {
         await axios
-          .post(`${Base_URL}/signup`, {
+          .post(`${Base_URL}/usersignup`, {
             username,
             idfy,
             email,
@@ -95,19 +86,15 @@ const Signup = () => {
           })
           .then((res) => {
             setError(res.data.message);
-            if (!res.data.success) {
-              setError(res.data.message);
-            } else {
-              toast.success("User registered!", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: "toast-message",
-                autoClose: 2000,
-              });
-              navigate("/dashboard");
-            }
+            toast(res.data.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: "toast-message",
+              autoClose: 2000,
+            });
+            if (res.status !== 208) navigate("/userlogin");
           })
           .catch((e) => {
-            alert("Something went wrong");
+            setError("Something went wrong");
             console.log(e);
           })
           .finally(() => {
@@ -134,10 +121,7 @@ const Signup = () => {
         <div className="v-line-log "></div>
         <div className="right-log">
           <div className="">
-            <h3 className="pls-log">
-              Hello Admin <br />
-              please Sign up!
-            </h3>
+            <h3 className="pls-log">please Sign up!</h3>
             <div className="login-form">
               <div className="name-enter">
                 <label className="enter-det">Name</label>
@@ -181,7 +165,10 @@ const Signup = () => {
                 />
               </div>
               {loading ? (
-                <h5 className="wait">Please wait...</h5>
+                <div className="spin-div">
+                  <Spinner className="spin" radius={25} color={"#000"} />
+                  Please wait...
+                </div>
               ) : (
                 <div
                   className={
@@ -193,7 +180,11 @@ const Signup = () => {
               )}
               <div className="btn-log-div">
                 {endpoint === "signup" ? (
-                  <button type="button" onClick={Signup} className="log-btn">
+                  <button
+                    type="button"
+                    onClick={AdminSignup}
+                    className="log-btn"
+                  >
                     Sign up
                   </button>
                 ) : (
