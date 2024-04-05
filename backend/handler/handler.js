@@ -84,7 +84,7 @@ export const Signup = async (req, res) => {
 export const Sign = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  const endpoint = req.body.endpoint;
+  const endpoint = req.body.toogle;
   const jwtExpireTime = 86400;
 
   try {
