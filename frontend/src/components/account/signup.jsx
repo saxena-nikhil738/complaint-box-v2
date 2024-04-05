@@ -2,26 +2,32 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./signup.css";
-import image from "../../image/login.jpg";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
 import Base_URL from "../../config/Config";
 import * as Cookies from "es-cookie";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Spinner from "react-spinner-material";
 
 const Signup = ({ endpoint }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const idfy = location.pathname === "/usersignup" ? 1 : 0;
+  const idfy = endpoint === "usersignup" ? 1 : 0;
   const token = Cookies.get("token");
 
   const AdminSignup = async (req, res) => {
     if (!token) {
+      toast.error("Do admin login to create new admin", {
+        position: toast.POSITION.TOP_RIGHT,
+        className: "toast-message",
+        autoClose: 2000,
+      });
       navigate("/login");
     }
     if (username === "" || password === "" || email === "") {
@@ -113,95 +119,106 @@ const Signup = ({ endpoint }) => {
   }
 
   return (
-    <div className="container-log ">
-      <div className="form-body-log">
-        <div className="left-log">
-          <img className="log-img" src={image} alt="" />
+    <div className="container-f">
+      <div className="form">
+        <div className="account-type">Please login</div>
+        <div className="input-field">
+          <label className="name" htmlFor="name">
+            Name
+          </label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            name="email"
+            id="email"
+          />
         </div>
-        <div className="v-line-log "></div>
-        <div className="right-log">
-          <div className="">
-            <h3 className="pls-log">please Sign up!</h3>
-            <div className="login-form">
-              <div className="name-enter">
-                <label className="enter-det">Name</label>
-                <input
-                  className="inputx "
-                  required
-                  placeholder="Username"
-                  type="text"
-                  label="Username"
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                  id="username"
-                />
-              </div>
-              <div className="email-enter">
-                <label className="enter-det">Email</label>
-                <input
-                  className=" inputx"
-                  required
-                  placeholder="Email"
-                  type="email"
-                  label="Enter email"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  id="email"
-                />
-                <br />
-              </div>
-              <div className="password-enter">
-                <label className="enter-det">Password</label>
-                <input
-                  required
-                  className="border-1 inputx"
-                  type="password"
-                  placeholder="Password"
-                  id="password"
-                  label="Enter password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {loading ? (
-                <div className="spin-div">
-                  <Spinner className="spin" radius={25} color={"#000"} />
-                  Please wait...
-                </div>
-              ) : (
-                <div
-                  className={
-                    error !== undefined ? "visible-error" : "invisible-error"
-                  }
-                >
-                  {error}
-                </div>
-              )}
-              <div className="btn-log-div">
-                {endpoint === "signup" ? (
-                  <button
-                    type="button"
-                    onClick={AdminSignup}
-                    className="log-btn"
-                  >
-                    Sign up
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={UserSignup}
-                    className="log-btn"
-                  >
-                    Sign up
-                  </button>
-                )}
-              </div>
-              <div className="switch-login">
-                <Link to={"/dashboard"}>Back</Link>
-              </div>
-            </div>
+        <div className="input-field">
+          <label className="email" htmlFor="email">
+            Email
+          </label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            name="email"
+            id="email"
+          />
+        </div>
+        <label className="password" htmlFor="password">
+          Password
+        </label>
+        <div style={{ position: "relative" }}>
+          {!showPassword ? (
+            <input
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              name="password"
+              id="password"
+            />
+          ) : (
+            <input
+              type="text"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              name="password"
+              id="visiblepassword"
+            />
+          )}
+          <div
+            className="show"
+            style={{ position: "absolute", right: "8px", top: "4px" }}
+          >
+            <a
+              style={{ cursor: "pointer" }}
+              role="button"
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {!showPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+            </a>
           </div>
+        </div>
+
+        {loading ? (
+          <div className="spin-div">
+            <Spinner className="spin" radius={25} color={"#000"} />
+            Please wait...
+          </div>
+        ) : (
+          <div
+            className={
+              error !== undefined ? "visible-error" : "invisible-error"
+            }
+          >
+            {error}
+          </div>
+        )}
+        {idfy ? (
+          <button onClick={UserSignup} className="create-button">
+            SIGNUP
+          </button>
+        ) : (
+          <button onClick={AdminSignup} className="create-button">
+            SIGNUP
+          </button>
+        )}
+
+        <div className="switch-account">
+          <div className="signup-login">
+            <div className="exist">Have an Account?</div>
+          </div>
+
+          <Link className="admin-login" to="/userlogin">
+            LOGIN
+          </Link>
         </div>
       </div>
     </div>
