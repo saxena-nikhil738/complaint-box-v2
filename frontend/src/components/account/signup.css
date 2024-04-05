@@ -73,5 +73,6 @@ input{
 @media (max-width: 664px){
     .form{
         width: 300px;
+        margin-top:0px;
     }
 }
