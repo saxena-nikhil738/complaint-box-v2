@@ -22,36 +22,34 @@ function App() {
     <div>
       <ToastContainer />
       <Header />
-      <div className="scroll">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/main" element={<PrivateRoute />}>
-            <Route path="" element={<Complaint />} />
-            <Route path="reply" element={<ReplyChat />} />
-            <Route path="chat/:id" element={<ChatSidebar />} />
-            <Route path="reply/chat/:id" element={<ReplyChat />} />
-            <Route path="chat" element={<ChatSidebar />} />
-            <Route path="allcomplaint" element={<Complaint ele={"all"} />} />
-            <Route path="approved" element={<Complaint ele={"approved"} />} />
-            <Route path="pending" element={<Complaint ele={"pending"} />} />
-            <Route path="rejected" element={<Complaint ele={"rejected"} />} />
-            <Route
-              path="processing"
-              element={<Complaint ele={"processing"} />}
-            />
-          </Route>
-          <Route path="/dashboard" element={<PrivateRoute />}>
-            <Route path="" element={<Dashboard />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup endpoint={"signup"} />} />
-          <Route path="/userlogin" element={<Login />} />
-          <Route path="/usersignup" element={<Signup endpoint={"usersignup"} />} />
-          <Route path="/logout" element={<Home />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/main" element={<PrivateRoute />}>
+          <Route path="" element={<Complaint />} />
+          <Route path="reply" element={<ReplyChat />} />
+          <Route path="chat/:id" element={<ChatSidebar />} />
+          <Route path="reply/chat/:id" element={<ReplyChat />} />
+          <Route path="chat" element={<ChatSidebar />} />
+          <Route path="allcomplaint" element={<Complaint ele={"all"} />} />
+          <Route path="approved" element={<Complaint ele={"approved"} />} />
+          <Route path="pending" element={<Complaint ele={"pending"} />} />
+          <Route path="rejected" element={<Complaint ele={"rejected"} />} />
+          <Route path="processing" element={<Complaint ele={"processing"} />} />
+        </Route>
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="" element={<Dashboard />} />
+        </Route>
+        <Route path="/login" element={<Login endpoint={"login"} />} />
+        <Route path="/signup" element={<Signup endpoint={"signup"} />} />
+        <Route path="/userlogin" element={<Login endpoint={"userlogin"} />} />
+        <Route
+          path="/usersignup"
+          element={<Signup endpoint={"usersignup"} />}
+        />
+        <Route path="/logout" element={<Home />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </div>
   );
 }
