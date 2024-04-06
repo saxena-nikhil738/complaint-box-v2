@@ -10,12 +10,12 @@ const About = () => {
       <div>
         <div className="about">
           <h1 className="display-4">About this app</h1>
-          <hr />
 
           <div className="parent-about">
             <p className="content-about">
-              Introduction: <hr /> ▪️ Our intuitive interface ensures a
-              hassle-free experience for submitting complaints or feedback.
+              <div className="head-about">Introduction:</div>
+              ▪️ Our intuitive interface ensures a hassle-free experience for
+              submitting complaints or feedback.
               <br />
               ▪️ Stay informed with real-time track on the status and resolution
               progress of your submitted complaints.
@@ -27,8 +27,9 @@ const About = () => {
               improvement.
             </p>
             <p className="content-about">
-              Purpose of the App: <hr /> ▪️ Provides a centralized system for
-              users to report problems or issues they encounter.
+              <div className="head-about">Purpose of the App:</div>
+              ▪️ Provides a centralized system for users to report problems or
+              issues they encounter.
               <br /> ▪️ Explain how the Enables organizations to address and
               resolve customer complaints promptly. <br /> ▪️ Aids in
               identifying patterns and trends in customer complaints, helping
@@ -40,9 +41,9 @@ const About = () => {
               measure the effectiveness
             </p>
             <p className="content-about">
-              How It Works:
-              <hr /> ▪️ Users typically need to register or log in to the app
-              using their credentials.
+              <div className="head-about">How It Works:</div>
+              ▪️ Users typically need to register or log in to the app using
+              their credentials.
               <br /> ▪️ Users submit their complaints through the app.
               <br /> ▪️ This may involve filling out a form or providing details
               about the nature of the complaint.
@@ -50,9 +51,9 @@ const About = () => {
               complaints.
             </p>{" "}
             <p className="content-about">
-              Features:
-              <hr /> ▪️ Secure user registration and authentication to ensure
-              that complaints are submitted by legitimate users. <br />
+              <div className="head-about">Features:</div>
+              ▪️ Secure user registration and authentication to ensure that
+              complaints are submitted by legitimate users. <br />
               ▪️ User-friendly interface for easy navigation and submission of
               complaints, with clear instructions and prompts.
               <br /> ▪️ A structured form for users to provide detailed
@@ -66,11 +67,11 @@ const About = () => {
               data and ensure compliance with data protection regulations.
             </p>{" "}
             <p className="content-about">
-              User Benefits: <hr /> ▪️ A complaint box app provides users with a
-              convenient and accessible platform to voice their concerns. <br />{" "}
-              ▪️ An intuitive and user-friendly interface makes it easy for
-              users to submit complaints without encountering unnecessary
-              complexity.
+              <div className="head-about">User Benefits:</div>
+              ▪️ A complaint box app provides users with a convenient and
+              accessible platform to voice their concerns. <br /> ▪️ An
+              intuitive and user-friendly interface makes it easy for users to
+              submit complaints without encountering unnecessary complexity.
               <br /> ▪️ Users can track the status and progress of their
               complaints in real-time. This transparency ensures that users are
               kept informed throughout the resolution process, reducing
@@ -80,11 +81,12 @@ const About = () => {
               improvement.
             </p>{" "}
             <p className="content-about">
-              Security and Privacy: <hr /> ▪️ Implement robust authentication
-              mechanisms to ensure that only authorized users can access and
-              submit complaints. <br /> ▪️ Implement role-based access controls
-              to restrict access to sensitive data and features. Only authorized
-              personnel should have access to user complaints and their details.
+              <div className="head-about">Security and Privacy:</div>
+              ▪️ Implement robust authentication mechanisms to ensure that only
+              authorized users can access and submit complaints. <br /> ▪️
+              Implement role-based access controls to restrict access to
+              sensitive data and features. Only authorized personnel should have
+              access to user complaints and their details.
               <br /> ▪️ Use strong encryption protocols to protect data during
               transmission between the user's device and the server. This helps
               prevent unauthorized access to sensitive information.

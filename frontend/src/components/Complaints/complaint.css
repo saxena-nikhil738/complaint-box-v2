@@ -7,6 +7,9 @@
     justify-content: space-evenly;
     margin: 0px 20px;
 }
+.left-content{
+    margin-top: 50px;
+}
 .right-comp{
     overflow-y: scroll;
     height: 650px;
@@ -17,9 +20,16 @@
 .middle{
     margin: 20px 0;
     width: 60%;
+    position: relative;
+}
+.middle i{
+    position: absolute;
+    right: 10px;
+    top: 5px;
 }
 .rec-per-page{
     font-size: 16px;
+    margin-right: 10px;
 }
 .search{
     width: 100%;
@@ -46,6 +56,7 @@
 }
 .right-content{
     width: 75%;
+    margin-top:60px;
 }
 .search-npages{
     display: flex;
@@ -66,7 +77,7 @@
 .navigator{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    row-gap: 10px;
 }
 .card-nav{
     width: 100%;
@@ -77,9 +88,11 @@
     box-shadow: 2px 4px #b8b8b8;
     text-decoration: none;
     height: 60px;
+    margin-bottom: 20px ;
 }
 .card-nav:hover{
     color: white;
+    background: #000;
 }
 
 .link-comp {
@@ -194,6 +207,9 @@
 .note{
     width: 100%;
 }
+.npages-mb{
+    display: none;
+}
 .add-note{
     margin: 10px;
     width: 100px;
@@ -202,6 +218,9 @@
     color: white;
     border-radius: 4px;
     cursor: pointer;
+}
+.hide{
+    row-gap: 8px;
 }
 .add-note-detail{
     cursor: pointer;
@@ -221,13 +240,21 @@
         flex-direction: column;
         margin: 5px;
     }
+    .left-content{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
     .left{
         display: flex;
-        flex-direction: column;
         margin-top: 10px;
+        position: relative;
+        width: auto;
     }
     .right-content{
         width: 100%;
+        margin-top:0px;
     }
     .search-npages{
         margin-top: 0px;
@@ -245,33 +272,52 @@
         width: 90%;
     }
     .middle{
-        width: 100%;
+        width: 80%;
         margin-top: 0px;
+        margin-bottom: 0px;
     }
-    .npages select{
+    .npages{
+        display: none;
+    }
+    .npages-mb{
+        display: block;
+        display: flex;
+        align-items: center;
+    }
+    .npages-mb select{
         font-size: 12px;
         width: 40px;
         height: 24px;
     }
     .navigator{
-        width: 90%;
-        gap: 8px;
+        position: fixed;
+        top: 90px;
+        left: 50px;
+        width: 50%;
+        float: right;
+        gap: 0px;
+        background: white;
+        border: 1px solid rgb(82, 81, 81);
+        z-index: 1000;
+        border-radius: 4px;
     }
     .card-nav{
         height: 40px;
         font-size: 16px;
+        box-shadow: none;
+        border: none;
+        margin-bottom: 0px;
     }
     .search{
         width: 100%;
         border: 1px solid rgb(53, 52, 52);
     }
     .drop{
-        width: 90%;
         display: flex;
         justify-content: space-between;
         font-size: 16px;
         align-items: center;
-        background: #c5c5c58b;
+        background: #ebe9e98b;
         border-radius: 4px;
         padding: 2px 10px;
     }
@@ -317,6 +363,9 @@
     .note{
         font-size: 14px;
     }
+    .data{
+        padding: 4px 6px;
+    }
     .note-input{
         width: 70%;
     }
@@ -327,45 +376,4 @@
         padding: 10px;
     }
     
-}
-@media (max-width: 998px){
-    .left-right{
-        display: flex;
-        flex-direction: column;
-
-    }
-    .data{
-        padding: 3px 10px;
-    }
-    .right-content{
-        width: 100%;
-    }
-    .type{
-        padding: 5px 10px;
-        display: flex;
-    }
-    
-    .navigator{
-        gap: 8px;
-    }
-    .btn{
-        display: none;
-    }
-    .left{
-        display: flex;
-    }
-    .middle{
-        width: 70%;
-        
-    }
-    .hide{
-        display: none;
-    }
-    .search{
-        border: 1px solid rgb(53, 52, 52);
-    }
-    
-    .ele-size{
-        font-size: 16px;
-    }
 }

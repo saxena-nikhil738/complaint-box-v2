@@ -11,6 +11,7 @@ import Spinner from "react-spinner-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Base_URL from "../../config/Config";
 import * as Cookies from "es-cookie";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Complaint = ({ ele }) => {
   const [compData, setCompData] = useState([]);
@@ -79,28 +80,37 @@ const Complaint = ({ ele }) => {
         <div className="row left-right">
           <div className="left-content">
             <FormDialog />
+            <div className="npages-mb">
+              <div className="rec-per-page">Records: </div>{" "}
+              <select
+                name="pages"
+                id=""
+                value={recordsPerPage}
+                onChange={(e) => {
+                  setRocordPerPage(e.target.value);
+                }}
+              >
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </div>
           </div>
           <div className="right-content">
             <div className="search-npages">
               <div className=" middle">
-                {currentRecords?.length <= 0 ? (
-                  <input
-                    className=" search "
-                    disabled
-                    type="text"
-                    placeholder="Search by name"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                ) : (
-                  <input
-                    className=" search "
-                    type="text"
-                    placeholder="Search by name"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                )}
+                <input
+                  className=" search "
+                  disabled={currentRecords.length <= 0}
+                  type="search"
+                  placeholder="Search by name"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <i>
+                  <SearchIcon className="search-icon" />
+                </i>
               </div>
 
               <div className="npages">

@@ -15,6 +15,7 @@
     height: 400px;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.715);
 }
+
 .complaint-title{
     margin: 10px;
 }
@@ -56,9 +57,29 @@
     border: 1px black solid;
     border-radius: 4px;
 }
+.new-comp{
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+.new-comp-2{
+    width: 100%;
+    font-size: 20px;
+    background:#17202A;
+    color: white;
+    border: 1px rgb(182, 180, 180) solid;
+    box-shadow: 1px 2px #b8b8b8;
+    text-decoration: none;
+    height: 60px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
 
 @media(max-width: 664px){
-    .MuiPaper-rounded{
+    .left{
         margin-top: 20px;
     }
     .form-data{
@@ -84,6 +105,18 @@
     .label-enter{
         margin: 0px
     }
+    .new-comp{
+        width: 40px;
+        position: fixed;
+        bottom: 50px;
+        right: 20px;
+        z-index: 1000;
+    }
+    .new-comp-2{
+        margin-top: 100px;
+        height: 40px;
+        width: 40px;
+    }
     .comp-btn{
         margin: 0px;
         margin-top: 40px;
@@ -93,5 +126,11 @@
     .inp{
         width: 90%;
         font-size: 14px;
+    }
+    .text{
+        display: none;
+    }
+    .drop{
+        margin-bottom: 10px;
     }
 }

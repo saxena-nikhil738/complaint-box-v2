@@ -3,25 +3,29 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import "./login.css";
-import image from "../../image/login.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Base_URL from "../../config/Config";
 import * as Cookies from "es-cookie";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Spinner from "react-spinner-material";
 
-const Login = () => {
-  const location = useLocation();
+const Login = ({ endpoint }) => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState();
   const [auth, setAuth] = useAuth();
   const [loading, setLoading] = useState(false);
 
-  let endpoint;
-  if (window.location.pathname.split("/").pop() === "userlogin") endpoint = 1;
-  if (window.location.pathname.split("/").pop() === "login") endpoint = 0;
+  let toogle;
+  if (endpoint === "userlogin") toogle = 1;
+  if (endpoint === "login") toogle = 0;
+
+  console.log(toogle);
 
   async function submit(e) {
     e.preventDefault();
@@ -32,7 +36,7 @@ const Login = () => {
       setLoading(true);
       try {
         const res = await axios.post(`${Base_URL}/login`, {
-          endpoint,
+          toogle,
           email,
           password,
         });
@@ -69,78 +73,96 @@ const Login = () => {
   }
 
   return (
-    <div className="container-log ">
-      <div className="form-body-log">
-        <div className="left-log">
-          <img className="log-img" src={image} alt="" />
+    <div className="container-f">
+      <div className="form">
+        <div className="account-type">Please login</div>
+        <div className="input-field">
+          <label className="email" htmlFor="email">
+            Email
+          </label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            name="email"
+            id="email"
+          />
         </div>
-        <div className="v-line-log "></div>
-        <div className="right-log">
-          <div className="content-log">
-            <h3 className="pls-log">
-              Welcome back <br />
-              please Login!
-            </h3>
-            <div className="form-login">
-              <div className="enter-det">
-                <label className="email-enter">Email</label>
-                <input
-                  className=" inputx"
-                  required
-                  placeholder="Enter email"
-                  type="email"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  id="email"
-                />
-              </div>
-              <div className="enter-det">
-                <label className="password-enter">Password</label>
-                <input
-                  required
-                  className="border-1 inputx"
-                  type="password"
-                  placeholder="Password"
-                  id="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {loading ? (
-                <div className="spin-div">
-                  <Spinner className="spin" radius={25} color={"#000"} />
-                  Please wait...
-                </div>
-              ) : (
-                <div
-                  className={
-                    error !== undefined ? "visible-error" : "invisible-error"
-                  }
-                >
-                  {error}
-                </div>
-              )}
-              <div className="btn-log-div">
-                <button type="button" onClick={submit} className="log-btn">
-                  Login
-                </button>
-              </div>
-              <div className="switch-links">
-                {!endpoint ? (
-                  <Link className="switch-login" to={"/userlogin"}>
-                    User login?
-                  </Link>
-                ) : (
-                  <Link className="switch-login" to={"/login"}>
-                    Admin login?
-                  </Link>
-                )}
-                <Link className="switch-login" to={"/usersignup"}>
-                  Create Account?
-                </Link>
-              </div>
+        <label className="password" htmlFor="password">
+          Password
+        </label>
+        <div style={{ position: "relative" }}>
+          {!showPassword ? (
+            <input
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              name="password"
+              id="password"
+            />
+          ) : (
+            <input
+              type="text"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              name="password"
+              id="visiblepassword"
+            />
+          )}
+          <div
+            className="show"
+            style={{ position: "absolute", right: "8px", top: "4px" }}
+          >
+            <a
+              style={{ cursor: "pointer" }}
+              role="button"
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {!showPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+            </a>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="spin-div">
+            <Spinner className="spin" radius={25} color={"#000"} />
+            Please wait...
+          </div>
+        ) : (
+          <div
+            className={
+              error !== undefined ? "visible-error" : "invisible-error"
+            }
+          >
+            {error}
+          </div>
+        )}
+        <button onClick={submit} className="create-button">
+          LOGIN
+        </button>
+
+        <div className="switch-account">
+          <div className="signup-login">
+            <div className="exist">
+              <Link className="login-link" to="/usersignup">
+                Create Account?
+              </Link>
             </div>
           </div>
+          {toogle ? (
+            <Link className="admin-login" to="/login">
+              ADMIN LOGIN
+            </Link>
+          ) : (
+            <Link className="admin-login" to="/userlogin">
+              USER LOGIN
+            </Link>
+          )}
         </div>
       </div>
     </div>

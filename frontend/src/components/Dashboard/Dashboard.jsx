@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import "./dash-container.css";
 import { useAuth } from "../../context/auth";
 // import { Button } from "react-bootstrap";
@@ -11,6 +10,7 @@ import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Base_URL from "../../config/Config";
+import * as Cookies from "es-cookie";
 
 export default function Dashboard() {
   const [auth, setauth] = useAuth();
@@ -20,6 +20,7 @@ export default function Dashboard() {
   const email = auth.email;
   const [error, setError] = useState();
   const navigate = useNavigate();
+  const token = Cookies.get("token");
 
   const enableFlag = () => {
     setFlag(false);
@@ -30,11 +31,19 @@ export default function Dashboard() {
       setError("Fill passwords");
     } else {
       try {
-        const res = await axios.put(`${Base_URL}/dashboard/changePass`, {
-          email,
-          old,
-          newPass,
-        });
+        const res = await axios.put(
+          `${Base_URL}/dashboard/changePass`,
+          {
+            email,
+            old,
+            newPass,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
 
         if (res.data.message === "Password changed!") {
           setError("Password changed!");
@@ -48,6 +57,7 @@ export default function Dashboard() {
           setError("Something went wrong!");
         }
       } catch (error) {
+        setError("Something went wrong!");
         console.log(error);
       }
     }
@@ -75,7 +85,7 @@ export default function Dashboard() {
 
           <div className={!flag ? "v-line-2" : "v-line-1"}></div>
           <div className="right">
-            <h2 className="">Information</h2>
+            <h3 className="information">Information</h3>
             <hr />
             <div className="wrapper-dash">
               <div className="user">
@@ -111,7 +121,6 @@ export default function Dashboard() {
                           type="password"
                         />
                       </div>
-                      <br />
                       <div className="pass">
                         <input
                           placeholder="New password"
@@ -120,7 +129,6 @@ export default function Dashboard() {
                           type="password"
                         />
                       </div>
-                      <br />
                       <div
                         className={
                           error === undefined || error === "Password changed!"
