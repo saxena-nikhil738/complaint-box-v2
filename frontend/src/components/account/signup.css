@@ -60,7 +60,13 @@ input{
     outline: none;
     width: 100%;
 }
-
+.spin-div{
+    margin-top: 5px;
+    display: flex;
+}
+.spin{
+    margin-right: 10px;
+}
 .account-type{
     display: flex;
     justify-content: center;
