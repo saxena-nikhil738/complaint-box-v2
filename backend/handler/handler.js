@@ -10,7 +10,7 @@ export const UserSignup = async (req, res) => {
     // Check if the user already exists
     const existingUser = await userauth.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({
+      return res.status(208).json({
         success: false,
         message: "User already exists. Please login.",
       });
@@ -49,7 +49,7 @@ export const Signup = async (req, res) => {
     // Check if the user already exists
     const existingUser = await userauth.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({
+      return res.status(208).json({
         success: false,
         message: "User already exists. Please login.",
       });
@@ -84,7 +84,7 @@ export const Signup = async (req, res) => {
 export const Sign = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  const endpoint = req.body.endpoint;
+  const endpoint = req.body.toogle;
   const jwtExpireTime = 86400;
 
   try {
@@ -106,7 +106,7 @@ export const Sign = async (req, res) => {
           };
           res.status(200).send({ obj: obj, token: tokenT });
         } else {
-          res.status(400).send("Password incorrect");
+          res.status(203).send("Password incorrect");
         }
       } catch (error) {
         console.error("Error comparing passwords:", error);
