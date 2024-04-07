@@ -16,24 +16,24 @@ const Footer = () => {
       <div className="wrapper-1">
         <div className="copy-right">© 2023 Copyright:cmpbox221.com</div>
         <div className="links">
-          <a href="" className="link-foot">
+          <Link to="" className="link-foot">
             Help center
-          </a>
-          <a href="" className="link-foot">
+          </Link>
+          <Link to="https://github.com/saxena-nikhil738" className="link-foot">
             GitHub
-          </a>
-          <a href="" className="link-foot">
+          </Link>
+          <Link to="https://twitter.com/NikhilSaxena738" className="link-foot">
             Twitter
-          </a>
-          <a href="" className="link-foot">
+          </Link>
+          <Link to="" className="link-foot">
             Privacy & Policy
-          </a>
-          <a href="" className="link-foot">
+          </Link>
+          <Link to="mailto: nikhilsaxena738@gmail.com" className="link-foot">
             nikhilsaxena738@gmail.com
-          </a>
-          <a href="" className="link-foot">
+          </Link>
+          <Link to="" className="link-foot">
             Terms & Conditions
-          </a>
+          </Link>
         </div>
         <div className="country">
           <img src="/india.png" alt="image" className="india" />

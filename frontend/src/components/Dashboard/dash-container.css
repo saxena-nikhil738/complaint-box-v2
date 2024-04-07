@@ -41,6 +41,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 30px;
 }
 .v-line-1{
     border-left: 2px solid #8f8989;  
@@ -63,7 +64,10 @@
     gap: 4px;
  }
  .pass{
-    width: 80%;
+    width: 90%;
+ }
+ .inp{
+    width: 100%;
  }
 
  @media(max-width: 664px){

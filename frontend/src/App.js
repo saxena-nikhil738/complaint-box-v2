@@ -13,6 +13,9 @@ import "react-toastify/dist/ReactToastify.css";
 import ChatSidebar from "./components/Chats/ChatSidebar";
 import ReplyChat from "./components/Chats/ReplyChat";
 import Complaint from "./components/Complaints/Complaint";
+import OTPPage from "./components/OTPVerification/OTPPage";
+import EnterEmail from "./components/ForgetPassword/EnterEmail";
+import ResetPassword from "./components/ForgetPassword/ResetPassword";
 
 function App() {
   {
@@ -25,6 +28,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/verifyOTP" element={<OTPPage />} />
+        <Route path="/forgetpassword" element={<EnterEmail />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/main" element={<PrivateRoute />}>
           <Route path="" element={<Complaint />} />
           <Route path="reply" element={<ReplyChat />} />

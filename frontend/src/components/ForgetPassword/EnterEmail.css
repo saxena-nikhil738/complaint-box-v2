@@ -75,10 +75,6 @@ input{
     margin-top: 10px;
     font-weight: 500;
 }
-.forget-password{
-    display: flex;
-    justify-content: right;
-}
 
 @media (max-width: 664px){
     .form{

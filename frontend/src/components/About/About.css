@@ -10,8 +10,7 @@
     font-size: 32px;
 }
 .about{
-    margin: 0px;
-    margin-top: 50px;
+    margin: 100px 50px 0px;
 }
 .head-about{
     font-weight: 500;
@@ -21,6 +20,9 @@ br{
 }
 
 @media (max-width: 664px){
+    .about{
+        margin: 60px 10px 0px;
+    }
     .content-about{
         font-size: 14px !important;
         margin-top: 10px;

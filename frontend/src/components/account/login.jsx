@@ -47,7 +47,6 @@ const Login = ({ endpoint }) => {
           setError(res.data);
         } else {
           const data = res.data.obj;
-
           Cookies.set("token", res.data.token);
           Cookies.set("data", JSON.stringify(data));
           setAuth(data);
@@ -142,6 +141,17 @@ const Login = ({ endpoint }) => {
             {error}
           </div>
         )}
+        <div className="forget-password">
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              navigate("/forgetpassword", { state: endpoint });
+            }}
+          >
+            {" "}
+            Forgot password?
+          </div>
+        </div>
         <button onClick={submit} className="create-button">
           LOGIN
         </button>
@@ -156,11 +166,11 @@ const Login = ({ endpoint }) => {
           </div>
           {toogle ? (
             <Link className="admin-login" to="/login">
-              ADMIN LOGIN
+              Admin login
             </Link>
           ) : (
             <Link className="admin-login" to="/userlogin">
-              USER LOGIN
+              User login
             </Link>
           )}
         </div>

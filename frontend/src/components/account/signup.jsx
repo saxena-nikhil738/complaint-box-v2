@@ -61,7 +61,11 @@ const Signup = ({ endpoint }) => {
               className: "toast-message",
               autoClose: 2000,
             });
-            if (res.status !== 208) navigate("/dashboard");
+            if (res.status !== 208) {
+              navigate("/verifyOTP", {
+                state: { email: email, logintype: "dashboard" },
+              });
+            }
           })
           .catch((e) => {
             setError("Something went wrong");
@@ -90,7 +94,6 @@ const Signup = ({ endpoint }) => {
             idfy,
             email,
             password,
-            token,
           })
           .then((res) => {
             setError(res.data.message);
@@ -99,7 +102,11 @@ const Signup = ({ endpoint }) => {
               className: "toast-message",
               autoClose: 2000,
             });
-            if (res.status !== 208) navigate("/userlogin");
+            if (res.status !== 208) {
+              navigate("/verifyOTP", {
+                state: { email: email, logintype: "userlogin" },
+              });
+            }
           })
           .catch((e) => {
             setError("Something went wrong");
@@ -109,6 +116,7 @@ const Signup = ({ endpoint }) => {
             setLoading(false);
           });
       } else {
+        setLoading(false);
         toast.warning("Invalid email");
       }
     }
@@ -221,7 +229,7 @@ const Signup = ({ endpoint }) => {
             </div>
 
             <Link className="admin-login" to="/userlogin">
-              LOGIN
+              Login
             </Link>
           </div>
         )}

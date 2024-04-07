@@ -15,28 +15,28 @@ import * as Cookies from "es-cookie";
 export default function Dashboard() {
   const [auth, setauth] = useAuth();
   const [flag, setFlag] = useState(true);
-  const [old, setOld] = useState("");
-  const [newPass, setNewPass] = useState("");
-  const email = auth.email;
+  const [newpassword, setNewPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
   const [error, setError] = useState();
   const navigate = useNavigate();
   const token = Cookies.get("token");
 
   const enableFlag = () => {
+    setError("");
     setFlag(false);
   };
 
   const changePassword = async () => {
-    if (old === "" || newPass === "") {
-      setError("Fill passwords");
+    if (!newpassword || !confirmPassword) {
+      setError("Passwords can't be empty");
+    } else if (newpassword !== confirmPassword) {
+      setError("Password doesn't match");
     } else {
       try {
         const res = await axios.put(
           `${Base_URL}/dashboard/changePass`,
           {
-            email,
-            old,
-            newPass,
+            password: confirmPassword,
           },
           {
             headers: {
@@ -45,19 +45,16 @@ export default function Dashboard() {
           }
         );
 
-        if (res.data.message === "Password changed!") {
-          setError("Password changed!");
+        if (res.data.success) {
           toast.success("Password changed!", {
             position: toast.POSITION.TOP_RIGHT,
             className: "toast-message",
             autoClose: 2000,
           });
           setFlag(true);
-        } else {
-          setError("Something went wrong!");
         }
       } catch (error) {
-        setError("Something went wrong!");
+        setError("Failed to change password!");
         console.log(error);
       }
     }
@@ -115,16 +112,16 @@ export default function Dashboard() {
                     <div className="enter-pass ">
                       <div className="pass">
                         <input
-                          placeholder="Old password"
-                          onChange={(e) => setOld(e.target.value)}
+                          placeholder="New password"
+                          onChange={(e) => setNewPassword(e.target.value)}
                           className="inp "
                           type="password"
                         />
                       </div>
                       <div className="pass">
                         <input
-                          placeholder="New password"
-                          onChange={(e) => setNewPass(e.target.value)}
+                          placeholder="Confirm password"
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                           className="inp"
                           type="password"
                         />
