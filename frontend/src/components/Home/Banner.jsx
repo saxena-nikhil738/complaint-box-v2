@@ -1,10 +1,10 @@
 import React from "react";
 import "./banner.css";
-import { Checkmark } from "react-checkmark";
-import { Button } from "react-bootstrap";
 import client from "../../image/client.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="parent-banner">
@@ -19,7 +19,7 @@ const Banner = () => {
                 <li>Secure to use responsibly</li>
               </ul>
             </div>
-            <button className="km-btn-left" disabled>
+            <button className="km-btn-left" onClick={() => navigate("/about")}>
               Know more
             </button>
           </div>
@@ -49,7 +49,9 @@ const Banner = () => {
                     <li>Secure to use responsibly</li>
                   </ul>
                 </div>
-                <button className="km-btn">Know more</button>
+                <button className="km-btn" onClick={() => navigate("/about")}>
+                  Know more
+                </button>
               </div>
 
               <img src={client} alt="image" className="welcome-img" />

@@ -103,11 +103,7 @@ li{
 
 }
 .km-btn{
-    background: #000;
-    margin-left: 20px;
-    color: white;
-    padding: 0px 4px;
-    border-radius: 4px;
+    display: none;
 }
 .welcome-img{
     width: 180px;
@@ -155,6 +151,12 @@ li{
         margin: 10px 70px 0px;
     }
     .km-btn{
+        display: block;
+        background: #000;
+        margin-left: 20px;
+        color: white;
+        padding: 0px 4px;
+        border-radius: 4px;
         font-size: 14px;
     }
 
