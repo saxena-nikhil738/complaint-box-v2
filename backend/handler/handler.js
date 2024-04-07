@@ -2,39 +2,62 @@ import { userauth } from "../models/db.js";
 import { complaintData } from "../models/complaint-model.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
+import { generateAndSendOTP } from "./checkAuth.js";
 
 export const UserSignup = async (req, res) => {
   try {
-    const { email, password, username } = req.body;
+    const { email, password, username, idfy } = req.body;
 
     // Check if the user already exists
-    const existingUser = await userauth.findOne({ email });
+    const existingUser = await userauth.findOne({ email, isVerified: true });
     if (existingUser) {
       return res.status(208).json({
         success: false,
-        message: "User already exists. Please login.",
+        message: "User already exists use another email.",
+      });
+    } else {
+      // Generate OTP and hash password
+      await userauth.findOneAndDelete({ email });
+      const OTP = await generateAndSendOTP(email);
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      // Create new user
+      await userauth.create({
+        email,
+        password: hashedPassword,
+        username,
+        isVerified: false,
+        OTP,
+        enum: idfy,
+      });
+
+      // Send success response
+      return res.status(201).json({
+        success: true,
+        message: "OTP sent successfully",
       });
     }
-
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create a new user
-    await userauth.create({
-      email,
-      password: hashedPassword,
-      username,
-      enum: req.body.idfy, // Assuming idfy is provided in the request body
-    });
-
-    // Send success response
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully",
-    });
   } catch (error) {
     console.error("Error during user registration:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error1",
+    });
+  }
+};
+
+export const ResendOTP = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const OTP = await generateAndSendOTP(email);
+    await userauth.findOneAndUpdate({ email: email }, { $set: { OTP: OTP } });
+    res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+  } catch (error) {
+    console.error("Error during OTP resend:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -42,53 +65,98 @@ export const UserSignup = async (req, res) => {
   }
 };
 
-export const Signup = async (req, res) => {
+export const ResetPassword = async (req, res) => {
+  const { email, OTP, password } = req.body;
+  try {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const check = await userauth.findOneAndUpdate(
+      { email, OTP },
+      { $set: { password: hashedPassword } }
+    );
+    if (check)
+      res.status(202).send({ success: true, message: "Password changed" });
+    else res.status(205).send({ success: false, message: "Invalid OTP" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ success: false, message: "Internal server error" });
+  }
+};
+
+export const AdminSignup = async (req, res) => {
   try {
     const { email, password, username } = req.body;
 
     // Check if the user already exists
-    const existingUser = await userauth.findOne({ email });
+    const existingUser = await userauth.findOne({
+      email,
+      isVerified: true,
+    });
     if (existingUser) {
       return res.status(208).json({
         success: false,
-        message: "User already exists. Please login.",
+        message: "User already exists use another email",
+      });
+    } else {
+      // Generate OTP and hash password
+      await userauth.findOneAndDelete({ email });
+      const OTP = await generateAndSendOTP(email);
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      // Create new user
+      await userauth.create({
+        email,
+        password: hashedPassword,
+        username,
+        isVerified: false,
+        OTP,
+        enum: res.locals.type,
+      });
+
+      // Send success response
+      return res.status(201).json({
+        success: true,
+        message: "OTP sent successfully",
       });
     }
-
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create a new user
-    await userauth.create({
-      email,
-      password: hashedPassword,
-      username,
-      enum: res.locals.type, // Assuming idfy is provided in the request body
-    });
-
-    // Send success response
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully",
-    });
   } catch (error) {
     console.error("Error during user registration:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "Internal Server Error1",
     });
+  }
+};
+
+export const VerifyOTP = async (req, res) => {
+  try {
+    const found = await userauth.findOneAndUpdate(
+      { email: req.body.email, OTP: req.body.OTP },
+      { $set: { isVerified: true } }
+    );
+    if (found) {
+      res.status(200).json({ success: true, message: "User Registered" });
+    } else {
+      res.status(401).json({ success: false, message: "Invalid OTP" });
+    }
+  } catch (error) {
+    console.error("Error during OTP verification:", error);
+    res.status(400).json({ success: false, message: "Something went wrong" });
   }
 };
 
 export const Sign = async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
   const endpoint = req.body.toogle;
   const jwtExpireTime = 86400;
 
   try {
-    const check = await userauth.findOne({ email: email, enum: endpoint });
+    const check = await userauth.findOne({
+      email: email,
+      enum: endpoint,
+      isVerified: true,
+    });
     if (check) {
       try {
         const match = await bcrypt.compare(password, check.password);
@@ -184,50 +252,18 @@ export const UpdateComplaint = async (req, res) => {
 };
 
 export const ChangePassword = async (req, res) => {
-  const oldPass = req.body.old;
-  const newPassword = req.body.newPass;
-  const email = req.body.email;
-  const found = await userauth.findOne({ email: email });
-  if (found) {
-    try {
-      const match = await bcrypt.compare(oldPass, found.password);
-
-      if (match) {
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-        await userauth
-          .updateOne(
-            { email: req.body.email },
-            {
-              $set: {
-                password: hashedPassword,
-              },
-            }
-          )
-          .then((result) => {
-            res.status(200).send({
-              success: true,
-              message: "Password changed!",
-            });
-          })
-          .catch((e) => {
-            console.log(e);
-            res
-              .status(400)
-              .send({ success: false, message: "Something went wrong!" });
-          });
-      } else {
-        res.status(404).send({
-          success: true,
-          message: "Password not matched!",
-        });
-      }
-    } catch (error) {
-      res
-        .status(404)
-        .send({ success: false, message: "Something went wrong!" });
-    }
-  } else {
-    res.status(404).send({ success: false, message: "Email not matched!" });
+  try {
+    const password = req.body.password;
+    const email = res.locals.id;
+    const found = await userauth.findOneAndUpdate(
+      { email: email },
+      { $set: { password: password } }
+    );
+    res.status(200).send({ success: true, message: "Password changed" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .send({ success: false, message: "Failed to change password" });
   }
 };

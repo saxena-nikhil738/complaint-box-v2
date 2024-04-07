@@ -20,7 +20,10 @@ const newSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  token: {
+  isVerified: {
+    type: String,
+  },
+  OTP: {
     type: String,
   },
 });

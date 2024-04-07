@@ -13,14 +13,16 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.0.0",
+    "nodemailer": "^6.9.13",
     "nodemon": "^3.0.1",
     "path": "^0.12.7",
+    "randomstring": "^1.3.0",
     "react-cookie": "^6.1.1",
     "react-router-dom": "^6.18.0",
     "universal-cookie": "^6.1.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "build": "npm i"
   }
 }
