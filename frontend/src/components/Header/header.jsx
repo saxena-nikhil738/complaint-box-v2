@@ -124,7 +124,6 @@ const Header = () => {
             <li>
               {token ? (
                 <Link
-                  to="/logout"
                   id="logout"
                   className="link-1"
                   variant="primary"
